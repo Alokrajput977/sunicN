@@ -1,0 +1,334 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.contact {
+  --ct-ink: #16151d;
+  --ct-muted: #6b6a78;
+  --ct-bg: #faf9f6;
+  --ct-card: #ffffff;
+  --ct-card-2: #fbfaf7;
+  --ct-border: #ecebe4;
+  --ct-input-bg: #f5f4ef;
+  --ct-indigo: #4338ca;
+  --ct-indigo-2: #6d5bf5;
+  --ct-gold: #e0a53f;
+  --ct-shadow: 0 24px 60px -28px rgba(22, 21, 29, 0.32);
+  --ct-success: #1e8e5a;
+
+  position: relative;
+  overflow: hidden;
+  background: var(--ct-bg);
+  color: var(--ct-ink);
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  padding: 108px 0;
+}
+
+.contact::before {
+  content: '';
+  position: absolute;
+  top: -180px;
+  right: -140px;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(closest-side, rgba(67, 56, 202, 0.16), transparent 72%);
+  pointer-events: none;
+}
+
+.contact__inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: 56px;
+  align-items: center;
+  perspective: 1400px;
+}
+
+/* ---------- Left: copy ---------- */
+.contact__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contact__copy > *,
+.contact__card {
+  will-change: transform, opacity;
+}
+
+.contact__eyebrow {
+  display: inline-block;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ct-indigo);
+  margin-bottom: 16px;
+}
+
+.contact__title {
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.01em;
+  margin: 0 0 18px;
+  max-width: 480px;
+}
+
+.contact__text {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ct-muted);
+  max-width: 420px;
+  margin: 0;
+}
+
+/* ---------- Right: card ---------- */
+.contact__card {
+  position: relative;
+  transform-style: preserve-3d;
+  width: 100%;
+  max-width: 620px;
+  background: linear-gradient(180deg, var(--ct-card) 0%, var(--ct-card-2) 100%);
+  border: 1px solid var(--ct-border);
+  border-radius: 20px;
+  padding: 36px 40px;
+  box-shadow: var(--ct-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* signature: soft rotating gradient glow behind the card */
+.contact__card-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 21px;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    var(--ct-indigo),
+    var(--ct-gold),
+    var(--ct-indigo-2),
+    var(--ct-indigo)
+  );
+  opacity: 0.35;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contact__card-tag {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--ct-indigo);
+  background: rgba(67, 56, 202, 0.1);
+  border: 1px solid rgba(67, 56, 202, 0.22);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.contact__row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.contact__card label {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ct-muted);
+}
+
+.contact__card input,
+.contact__card textarea {
+  font-family: inherit;
+  font-size: 14.5px;
+  color: var(--ct-ink);
+  background: var(--ct-input-bg);
+  border: 1px solid var(--ct-border);
+  border-radius: 10px;
+  padding: 11px 13px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.contact__card input::placeholder,
+.contact__card textarea::placeholder {
+  color: #9b99a8;
+}
+
+.contact__card input:focus,
+.contact__card textarea:focus {
+  border-color: var(--ct-indigo);
+  background: var(--ct-card);
+  box-shadow: 0 0 0 4px rgba(67, 56, 202, 0.14);
+}
+
+.contact__submit {
+  position: relative;
+  z-index: 1;
+  margin-top: 4px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  padding: 13px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--ct-indigo) 0%, var(--ct-indigo-2) 100%);
+  box-shadow: 0 14px 30px -14px rgba(67, 56, 202, 0.65);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact__submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -14px rgba(67, 56, 202, 0.75);
+}
+
+.contact__submit:active {
+  transform: translateY(0);
+}
+
+/* ---------- Success state ---------- */
+.contact__success {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 28px 8px;
+}
+
+.contact__success-mark {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--ct-success);
+}
+
+.contact__success p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--ct-muted);
+  max-width: 260px;
+}
+
+/* ---------- Dark mode ----------
+   Same two triggers as the Testimonials section: a manual
+   data-theme (or .dark class) attribute wins over the OS-level
+   prefers-color-scheme fallback. */
+@media (prefers-color-scheme: dark) {
+  .contact {
+    --ct-ink: #f4f3f8;
+    --ct-muted: #a6a4b8;
+    --ct-bg: #0f0f16;
+    --ct-card: #18171f;
+    --ct-card-2: #131219;
+    --ct-border: #29272f;
+    --ct-input-bg: #1e1c25;
+    --ct-indigo: #8f7fff;
+    --ct-indigo-2: #a595ff;
+    --ct-gold: #f0b75b;
+    --ct-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.65);
+    --ct-success: #34b57c;
+  }
+  .contact input::placeholder,
+  .contact textarea::placeholder {
+    color: #6f6d80;
+  }
+}
+
+:is(.dark, [data-theme='dark']) .contact {
+  --ct-ink: #f4f3f8;
+  --ct-muted: #a6a4b8;
+  --ct-bg: #0f0f16;
+  --ct-card: #18171f;
+  --ct-card-2: #131219;
+  --ct-border: #29272f;
+  --ct-input-bg: #1e1c25;
+  --ct-indigo: #8f7fff;
+  --ct-indigo-2: #a595ff;
+  --ct-gold: #f0b75b;
+  --ct-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.65);
+  --ct-success: #34b57c;
+}
+
+:is(.dark, [data-theme='dark']) .contact input::placeholder,
+:is(.dark, [data-theme='dark']) .contact textarea::placeholder {
+  color: #6f6d80;
+}
+
+:is(.light, [data-theme='light']) .contact {
+  --ct-ink: #16151d;
+  --ct-muted: #6b6a78;
+  --ct-bg: #faf9f6;
+  --ct-card: #ffffff;
+  --ct-card-2: #fbfaf7;
+  --ct-border: #ecebe4;
+  --ct-input-bg: #f5f4ef;
+  --ct-indigo: #4338ca;
+  --ct-indigo-2: #6d5bf5;
+  --ct-gold: #e0a53f;
+  --ct-shadow: 0 24px 60px -28px rgba(22, 21, 29, 0.32);
+  --ct-success: #1e8e5a;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .contact__card {
+    transform: none !important;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+  .contact__inner {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+  .contact__copy {
+    align-items: center;
+    text-align: center;
+  }
+  .contact__title,
+  .contact__text {
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 520px) {
+  .contact {
+    padding: 80px 0;
+  }
+  .contact__row {
+    grid-template-columns: 1fr;
+  }
+  .contact__card {
+    padding: 24px;
+  }
+}

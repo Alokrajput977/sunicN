@@ -1,0 +1,578 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --cr-ink: #16151d;
+  --cr-muted: #6b6a78;
+  --cr-faint: #8f8d9c;
+  --cr-bg: #faf9f6;
+  --cr-card: #ffffff;
+  --cr-border: #ecebe4;
+  --cr-indigo: #4338ca;
+  --cr-gold: #c9820f;
+  --cr-highlight-1: #5b4cf0;
+  --cr-highlight-2: #22d3ee;
+  --cr-success: #1e8e5a;
+  --cr-shadow: 0 20px 48px -26px rgba(22, 21, 29, 0.28);
+}
+
+.cr {
+  position: relative;
+  background: var(--cr-bg);
+  color: var(--cr-ink);
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  padding: 176px 0 140px;
+  overflow: hidden;
+}
+
+.cr::before {
+  content: '';
+  position: absolute;
+  top: -160px;
+  left: 50%;
+  width: 900px;
+  height: 480px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(91, 76, 240, 0.1), transparent 72%);
+  pointer-events: none;
+}
+
+.cr .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- Header ---------- */
+.cr__head {
+  position: relative;
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.cr__eyebrow {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cr-indigo);
+  background: rgba(67, 56, 202, 0.08);
+  border: 1px solid rgba(67, 56, 202, 0.18);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 22px;
+}
+
+.cr__title {
+  font-size: clamp(32px, 4.4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0 0 18px;
+}
+
+.cr__subtitle {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--cr-muted);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ---------- Department tabs ---------- */
+.cr__tabs-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 52px;
+}
+
+.cr__tabs {
+  position: relative;
+  display: inline-flex;
+  gap: 4px;
+  padding: 5px;
+  background: var(--cr-card);
+  border: 1px solid var(--cr-border);
+  border-radius: 999px;
+  box-shadow: var(--cr-shadow);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.cr__pill {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  height: calc(100% - 10px);
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cr-highlight-1), var(--cr-highlight-2));
+  z-index: 0;
+}
+
+.cr__tab {
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cr-muted);
+  padding: 9px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.cr__tab.is-active {
+  color: #ffffff;
+}
+
+/* ---------- Job list ---------- */
+.cr__list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cr__job {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  background: var(--cr-card);
+  border: 1px solid var(--cr-border);
+  border-radius: 14px;
+  padding: 24px 26px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cr__job:hover {
+  border-color: var(--cr-highlight-1);
+  transform: translateY(-2px);
+  box-shadow: var(--cr-shadow);
+}
+
+.cr__job-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cr__job-dept {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cr-gold);
+}
+
+.cr__job-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.cr__job-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  font-size: 12.5px;
+  color: var(--cr-faint);
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.cr__job-arrow {
+  flex: 0 0 auto;
+  font-size: 18px;
+  color: var(--cr-highlight-1);
+  transform: translateX(0);
+  transition: transform 0.2s ease;
+}
+
+.cr__job:hover .cr__job-arrow {
+  transform: translateX(4px);
+}
+
+/* ============================================================
+   Job modal
+   ============================================================ */
+.jm__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(10, 9, 15, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5vh 20px;
+  overflow-y: auto;
+}
+
+.jm__panel {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  background: var(--cr-card);
+  color: var(--cr-ink);
+  border-radius: 20px;
+  border: 1px solid var(--cr-border);
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.45);
+  padding: 40px 40px 36px;
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  margin-top: 140px;
+}
+
+.jm__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--cr-border);
+  background: var(--cr-bg);
+  color: var(--cr-muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.jm__close:hover {
+  background: var(--cr-highlight-1);
+  color: #fff;
+  border-color: var(--cr-highlight-1);
+}
+
+.jm__dept {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cr-gold);
+}
+
+.jm__title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 8px 0 14px;
+}
+
+.jm__title--tight {
+  margin-top: 0;
+}
+
+.jm__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.jm__meta span {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--cr-muted);
+  background: var(--cr-bg);
+  border: 1px solid var(--cr-border);
+  padding: 5px 11px;
+  border-radius: 999px;
+}
+
+.jm__summary {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--cr-muted);
+  margin: 0 0 22px;
+}
+
+.jm__section {
+  margin-bottom: 22px;
+}
+
+.jm__section h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.jm__section ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.jm__section li {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--cr-muted);
+}
+
+.jm__cta {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  padding: 13px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--cr-highlight-1), var(--cr-highlight-2));
+  box-shadow: 0 14px 30px -14px rgba(91, 76, 240, 0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jm__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -14px rgba(91, 76, 240, 0.7);
+}
+
+.jm__cta--ghost {
+  background: var(--cr-bg);
+  color: var(--cr-ink);
+  border: 1px solid var(--cr-border);
+  box-shadow: none;
+}
+
+.jm__cta--ghost:hover {
+  transform: none;
+  box-shadow: none;
+  background: var(--cr-border);
+}
+
+.jm__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cr-muted);
+  padding: 0;
+  margin-bottom: 16px;
+  transition: color 0.2s ease;
+}
+
+.jm__back:hover {
+  color: var(--cr-highlight-1);
+}
+
+/* ---------- Apply form ---------- */
+.jm__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.jm__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.jm__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cr-muted);
+}
+
+.jm__form input,
+.jm__form textarea {
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--cr-ink);
+  background: var(--cr-bg);
+  border: 1px solid var(--cr-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jm__form input:focus,
+.jm__form textarea:focus {
+  border-color: var(--cr-highlight-1);
+  box-shadow: 0 0 0 4px rgba(91, 76, 240, 0.14);
+}
+
+.jm__file-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px dashed var(--cr-border);
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: var(--cr-bg);
+}
+
+.jm__file-input input[type='file'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.jm__file-btn {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--cr-highlight-1);
+  padding: 6px 12px;
+  border-radius: 7px;
+  flex: 0 0 auto;
+}
+
+.jm__file-name {
+  font-size: 12.5px;
+  color: var(--cr-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Success step ---------- */
+.jm__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 8px 6px;
+}
+
+.jm__success-mark {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--cr-success);
+  margin-bottom: 16px;
+}
+
+.jm__success .jm__title {
+  margin-top: 0;
+}
+
+.jm__success .jm__summary {
+  max-width: 380px;
+}
+
+.jm__success .jm__cta {
+  margin-top: 8px;
+  max-width: 200px;
+}
+
+/* ============================================================
+   Dark / light mode — same mechanism as the rest of the site
+   ============================================================ */
+:is(.dark, [data-theme='dark']) .cr {
+  --cr-ink: #f4f3f8;
+  --cr-muted: #a6a4b8;
+  --cr-faint: #7f7d90;
+  --cr-bg: #0f0f16;
+  --cr-card: #17161f;
+  --cr-border: #27252f;
+  --cr-indigo: #8f7fff;
+  --cr-gold: #f0b75b;
+  --cr-highlight-1: #8f7fff;
+  --cr-highlight-2: #22d3ee;
+  --cr-success: #34b57c;
+  --cr-shadow: 0 20px 48px -22px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  .cr:not(:is(.light, [data-theme='light']) .cr) {
+    --cr-ink: #f4f3f8;
+    --cr-muted: #a6a4b8;
+    --cr-faint: #7f7d90;
+    --cr-bg: #0f0f16;
+    --cr-card: #17161f;
+    --cr-border: #27252f;
+    --cr-indigo: #8f7fff;
+    --cr-gold: #f0b75b;
+    --cr-highlight-1: #8f7fff;
+    --cr-highlight-2: #22d3ee;
+    --cr-success: #34b57c;
+    --cr-shadow: 0 20px 48px -22px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* jm__* elements live outside .cr (portalled to <body>), so the
+   modal needs its own theme hook straight off the root instead of
+   relying on being a descendant of .cr. */
+:is(.dark, [data-theme='dark']) {
+  --cr-ink: #f4f3f8;
+  --cr-muted: #a6a4b8;
+  --cr-faint: #7f7d90;
+  --cr-bg: #0f0f16;
+  --cr-card: #17161f;
+  --cr-border: #27252f;
+  --cr-highlight-1: #8f7fff;
+  --cr-highlight-2: #22d3ee;
+  --cr-success: #34b57c;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .cr {
+    padding: 128px 0 90px;
+  }
+  .cr__job {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cr__job-meta {
+    align-items: flex-start;
+    text-align: left;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cr__job-arrow {
+    display: none;
+  }
+  .jm__panel {
+    padding: 32px 22px 28px;
+    border-radius: 16px;
+  }
+  .jm__row {
+    grid-template-columns: 1fr;
+  }
+}

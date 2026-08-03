@@ -1,0 +1,163 @@
+/* ==========================================================================
+   VECTRA LOGISTICS — Global design tokens
+   Palette: "Cargo Night" — ink navy surface, amber signal, teal route,
+   violet freight accent. Two typefaces + one utility mono for waybill/
+   tracking style data, echoing real shipping manifests.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-theme: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out);
+}
+
+/* ---------- Dark theme (default) ---------- */
+:root[data-theme='dark'] {
+  --bg-primary: #0a0e1f;
+  --bg-secondary: #0f1430;
+  --bg-card: #141a3a;
+  --bg-card-hover: #1a2148;
+
+  --text-primary: #edeffb;
+  --text-secondary: #8892b8;
+  --text-muted: #5c648c;
+
+  --border-color: rgba(237, 239, 251, 0.09);
+  --border-strong: rgba(237, 239, 251, 0.18);
+
+  --accent-amber: #ff9f1c;
+  --accent-teal: #35e1c1;
+  --accent-violet: #7b6cf6;
+
+  --accent-gradient: linear-gradient(135deg, #35e1c1 0%, #7b6cf6 55%, #ff9f1c 100%);
+  --glow-teal: 0 0 60px rgba(53, 225, 193, 0.18);
+  --glow-amber: 0 0 60px rgba(255, 159, 28, 0.16);
+
+  --shadow-card: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  --overlay-scrim: rgba(10, 14, 31, 0.72);
+}
+
+/* ---------- Light theme ---------- */
+:root[data-theme='light'] {
+  --bg-primary: #f5f6fa;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f0f2fa;
+
+  --text-primary: #0a0e1f;
+  --text-secondary: #545e82;
+  --text-muted: #8992b4;
+
+  --border-color: rgba(10, 14, 31, 0.09);
+  --border-strong: rgba(10, 14, 31, 0.16);
+
+  --accent-amber: #e07e00;
+  --accent-teal: #0f9e86;
+  --accent-violet: #5b4bc4;
+
+  --accent-gradient: linear-gradient(135deg, #0f9e86 0%, #5b4bc4 55%, #e07e00 100%);
+  --glow-teal: 0 0 60px rgba(15, 158, 134, 0.12);
+  --glow-amber: 0 0 60px rgba(224, 126, 0, 0.12);
+
+  --shadow-card: 0 20px 50px -20px rgba(10, 14, 31, 0.18);
+  --overlay-scrim: rgba(245, 246, 250, 0.72);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: var(--transition-theme);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+::selection {
+  background: var(--accent-teal);
+  color: #0a0e1f;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible keyboard focus */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-teal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

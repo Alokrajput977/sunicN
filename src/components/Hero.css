@@ -1,0 +1,240 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 150px 0 80px;
+  overflow: hidden;
+}
+
+/* ---------- Backdrop ---------- */
+
+.hero__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__glow {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+}
+
+.hero__glow--teal {
+  background: var(--accent-teal);
+  top: -160px;
+  left: -120px;
+}
+
+.hero__glow--amber {
+  background: var(--accent-amber);
+  top: 120px;
+  right: -160px;
+  opacity: 0.25;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Copy (centered, screenshot-style) ---------- */
+
+.hero__copy {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero__title {
+  font-size: clamp(2.4rem, 7vw, 5.4rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  margin-bottom: 22px;
+}
+
+.hero__title-line {
+  display: block;
+}
+
+.hero__title-line--accent {
+  color: var(--accent-violet);
+}
+
+.hero__subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 580px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+
+/* Plain rating line — no pill, no border, sits directly on the background */
+.hero__badge {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 26px;
+  font-size: 0.92rem;
+}
+
+.hero__stars {
+  color: var(--accent-teal);
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+.hero__badge-text {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.hero__badge-muted {
+  color: var(--text-secondary);
+}
+
+/* Solid pill CTA, matching the screenshot's plain white button */
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 34px;
+  border-radius: 100px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+  font-size: 0.98rem;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+}
+
+.hero__cta:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--glow-teal);
+}
+
+/* ==========================================================================
+   Collage — percentage-based positions so the composition keeps the same
+   proportions at any container width (matches the reference screenshots).
+   Reference box ratio ≈ 2282 : 1062.
+   ========================================================================== */
+
+.hero__collage {
+  position: relative;
+  width: 100%;
+  max-width: 1320px;
+  aspect-ratio: 2282 / 1062;
+  margin: 64px auto 0;
+  perspective: 1400px;
+}
+
+.hero__tile {
+  position: absolute;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  background: var(--bg-card);
+}
+
+.hero__tile-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.hero__tile-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero__tile-rec {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4d4d;
+  box-shadow: 0 0 0 4px rgba(255, 77, 77, 0.25);
+  animation: heroRecPulse 1.8s ease-in-out infinite;
+  transform: translateZ(20px);
+}
+
+@keyframes heroRecPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.hero__tile-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  color: #f4f6ff;
+  background: rgba(5, 7, 18, 0.55);
+  backdrop-filter: blur(6px);
+  padding: 6px 9px;
+  border-radius: 8px;
+  transform: translateZ(20px);
+}
+
+/* Six tiles, positioned as percentages of the collage box — proportions
+   pulled directly from the reference layout. */
+.hero__tile--a { left: 0%;     top: 0%;     width: 20.5%; height: 40.8%; transform: rotate(-4deg); z-index: 2; }
+.hero__tile--b { left: 8.4%;   top: 10.1%;  width: 22%;   height: 59.6%; transform: rotate(2deg);  z-index: 3; }
+.hero__tile--c { left: 27.1%;  top: 30.3%;  width: 40.6%; height: 48.3%; transform: rotate(0deg);  z-index: 4; }
+.hero__tile--d { left: 65.9%;  top: 8.2%;   width: 20.6%; height: 61.5%; transform: rotate(3deg);  z-index: 3; }
+.hero__tile--e { left: 80.5%;  top: 4%;     width: 30.5%; height: 50%;   transform: rotate(-2deg); z-index: 1; }
+.hero__tile--f { left: 63%;    top: 60.3%;  width: 20.9%; height: 40.7%; transform: rotate(10deg);  z-index: 3; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1240px) {
+  .hero__collage {
+    position: static;
+    aspect-ratio: auto;
+    height: auto;
+    max-width: 100%;
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 16px 4px 26px;
+    scroll-snap-type: x proximity;
+    margin-top: 48px;
+  }
+
+  .hero__tile {
+    position: static !important;
+    transform: none !important;
+    width: 220px;
+    height: 280px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 130px 0 40px;
+  }
+
+  .hero__cta {
+    width: 100%;
+  }
+
+  .hero__tile {
+    width: 180px;
+    height: 240px;
+  }
+}

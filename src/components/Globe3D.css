@@ -1,0 +1,34 @@
+.globe3d {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 440px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.globe3d::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  background: radial-gradient(circle, var(--accent-teal) 0%, transparent 70%);
+  filter: blur(60px);
+  opacity: 0.22;
+  z-index: -1;
+}
+
+.globe3d canvas {
+  touch-action: none;
+  outline: none;
+}
+
+@media (max-width: 900px) {
+  .globe3d {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .globe3d {
+    max-width: 260px;
+  }
+}
