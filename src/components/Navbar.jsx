@@ -5,11 +5,12 @@ import './Navbar.css';
 
 const LINKS = [
   { label: 'About', to: '/About' },
-  { label: 'Network', to: '/#about' },
-  { label: 'Gallery', to: '/#gallery' },
+  { label: 'Clients', to: '/clients' },
+  { label: 'Gallery', to: '/gallery' },
   { label: 'Carrier', to: '/careers' },
-  { label: 'Get a quote', to: '/#contact' },
+  { label: 'Contact', to: '/contact' },
 ];
+
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();

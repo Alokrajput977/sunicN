@@ -1,0 +1,732 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --gl-ink: #16151d;
+  --gl-muted: #6b6a78;
+  --gl-faint: #8f8d9c;
+  --gl-bg: #faf9f6;
+  --gl-card: #ffffff;
+  --gl-border: #ecebe4;
+  --gl-indigo: #4338ca;
+  --gl-gold: #c9820f;
+  --gl-highlight-1: #5b4cf0;
+  --gl-highlight-2: #22d3ee;
+  --gl-shadow: 0 20px 48px -26px rgba(22, 21, 29, 0.28);
+}
+
+.gl {
+  position: relative;
+  background: var(--gl-bg);
+  color: var(--gl-ink);
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  padding: 150px 0 160px;
+  overflow: hidden;
+}
+
+.gl::before {
+  content: '';
+  position: absolute;
+  top: -160px;
+  left: 50%;
+  width: 900px;
+  height: 480px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(91, 76, 240, 0.1), transparent 72%);
+  pointer-events: none;
+}
+
+.gl .container {
+  position: relative;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ---------- Header ---------- */
+.gl__head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.gl__eyebrow {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gl-indigo);
+  background: rgba(67, 56, 202, 0.08);
+  border: 1px solid rgba(67, 56, 202, 0.18);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+
+.gl__title {
+  font-size: clamp(32px, 4.4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0 0 20px;
+}
+
+.gl__subtitle {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--gl-muted);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ---------- Filter tabs — sliding underline ---------- */
+.gl__tabs-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 56px;
+}
+
+.gl__tabs {
+  position: relative;
+  display: inline-flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--gl-border);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.gl__pill {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--gl-highlight-1), var(--gl-highlight-2));
+  z-index: 1;
+}
+
+.gl__tab {
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--gl-muted);
+  padding: 12px 20px 15px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.gl__tab:hover {
+  color: var(--gl-ink);
+}
+
+.gl__tab.is-active {
+  color: var(--gl-highlight-1);
+  margin-bottom: 10px;
+}
+
+/* ---------- Grid — roomier tiles, bigger gaps ---------- */
+.gl__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 310px;
+  gap: 26px;
+}
+
+.gl__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  background: var(--gl-card);
+  border: 1px solid var(--gl-border);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  will-change: transform, opacity;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gl__card--wide {
+  grid-column: span 2;
+}
+
+.gl__card--tall {
+  grid-row: span 2;
+}
+
+/* gold rule slides in from the left edge on hover */
+.gl__card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gl-gold);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 3;
+}
+
+.gl__card:hover {
+  border-color: var(--gl-highlight-1);
+  box-shadow: var(--gl-shadow);
+}
+
+.gl__card:hover::before {
+  transform: scaleY(1);
+}
+
+.gl__card:focus-visible {
+  outline: 2px solid var(--gl-highlight-1);
+  outline-offset: 3px;
+}
+
+/* ---------- Media layer ---------- */
+.gl__card-media {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--gl-border);
+}
+
+.gl__card-media img,
+.gl__card-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gl__card:hover .gl__card-media img,
+.gl__card:hover .gl__card-media video {
+  transform: scale(1.06);
+}
+
+/* placeholder when a src is missing or fails to load */
+.gl__card-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(150deg, rgba(91, 76, 240, 0.09), transparent 65%), var(--gl-bg);
+}
+
+.gl__card-fallback-mark {
+  font-size: 26px;
+  color: var(--gl-highlight-1);
+  opacity: 0.5;
+}
+
+.gl__card-fallback-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gl-faint);
+}
+
+.gl__card-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(22, 21, 29, 0.4), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gl__card:hover .gl__card-shade {
+  opacity: 1;
+}
+
+.gl__card-play {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--gl-ink);
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 50%;
+  padding-left: 2px;
+  transition: transform 0.25s ease;
+}
+
+.gl__card:hover .gl__card-play {
+  transform: scale(1.14);
+}
+
+/* ---------- Card text — generous padding ---------- */
+.gl__card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 24px 20px;
+  flex: 0 0 auto;
+}
+
+.gl__card--blog .gl__card-info {
+  flex: 1 1 auto;
+  justify-content: flex-start;
+  padding: 32px 28px 26px;
+  gap: 12px;
+}
+
+.gl__card-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gl-gold);
+}
+
+.gl__card-title {
+  font-size: 16.5px;
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+}
+
+.gl__card--blog .gl__card-title {
+  font-size: 20px;
+  line-height: 1.28;
+}
+
+.gl__card-caption {
+  display: none;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--gl-muted);
+}
+
+.gl__card--blog .gl__card-caption,
+.gl__card--wide .gl__card-caption {
+  display: block;
+}
+
+.gl__card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.gl__card-date {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--gl-faint);
+}
+
+.gl__card-cue {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gl-highlight-1);
+  transform: translateX(0);
+  transition: transform 0.22s ease;
+}
+
+.gl__card:hover .gl__card-cue {
+  transform: translateX(5px);
+}
+
+.gl__card--blog {
+  background: linear-gradient(160deg, rgba(91, 76, 240, 0.06), transparent 60%), var(--gl-card);
+}
+
+/* ============================================================
+   Lightbox — media capped, body always scrollable
+   ============================================================ */
+.gx__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(10, 9, 15, 0.74);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh 20px;
+}
+
+.gx__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  background: var(--gl-card);
+  color: var(--gl-ink);
+  border-radius: 20px;
+  border: 1px solid var(--gl-border);
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+}
+
+.gx__panel--read {
+  max-width: 720px;
+}
+
+.gx__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(22, 21, 29, 0.55);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.gx__close:hover {
+  background: var(--gl-highlight-1);
+  color: #fff;
+  border-color: var(--gl-highlight-1);
+}
+
+/* Media is capped at 45vh so the text below always has room to
+   read and scroll — previously it could eat the whole panel. */
+.gx__media {
+  flex: 0 0 auto;
+  width: 100%;
+  max-height: 45vh;
+  background: #0d0c12;
+  display: flex;
+}
+
+.gx__media img,
+.gx__media video {
+  width: 100%;
+  max-height: 45vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Blog banner image sits shorter and crops rather than letterboxes */
+.gx__media--banner {
+  max-height: 220px;
+}
+
+.gx__media--banner img {
+  max-height: 220px;
+  object-fit: cover;
+}
+
+/* The scrolling region — for every item kind, not just blogs */
+.gx__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 30px 38px 38px;
+}
+
+.gx__body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.gx__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.gx__body::-webkit-scrollbar-thumb {
+  background: var(--gl-border);
+  border-radius: 999px;
+}
+
+.gx__body::-webkit-scrollbar-thumb:hover {
+  background: var(--gl-faint);
+}
+
+.gx__tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gl-gold);
+}
+
+.gx__title {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.24;
+  margin: 10px 0 16px;
+}
+
+.gx__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.gx__meta span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  color: var(--gl-muted);
+  background: var(--gl-bg);
+  border: 1px solid var(--gl-border);
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.gx__prose {
+  border-top: 1px solid var(--gl-border);
+  padding-top: 4px;
+}
+
+.gx__prose p {
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: var(--gl-muted);
+  margin: 18px 0 0;
+}
+
+.gx__prose p:first-child {
+  color: var(--gl-ink);
+  font-weight: 500;
+  font-size: 16.5px;
+}
+
+.gx__prose-head {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gl-ink);
+  letter-spacing: -0.01em;
+  margin: 30px 0 -4px;
+  padding-left: 14px;
+  border-left: 3px solid var(--gl-gold);
+}
+
+/* THIS is what makes long blog posts scroll */
+.gx__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 30px 36px 36px;
+}
+
+.gx__body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.gx__body::-webkit-scrollbar-thumb {
+  background: var(--gl-border);
+  border-radius: 999px;
+}
+
+.gx__tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gl-gold);
+}
+
+.gx__title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.22;
+  margin: 10px 0 16px;
+}
+
+.gx__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.gx__meta span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  color: var(--gl-muted);
+  background: var(--gl-bg);
+  border: 1px solid var(--gl-border);
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.gx__caption {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--gl-muted);
+  margin: 0;
+}
+
+.gx__prose {
+  border-top: 1px solid var(--gl-border);
+  padding-top: 6px;
+}
+
+.gx__prose p {
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: var(--gl-muted);
+  margin: 18px 0 0;
+}
+
+.gx__prose p:first-child {
+  color: var(--gl-ink);
+  font-weight: 500;
+}
+
+/* ============================================================
+   Dark mode
+   ============================================================ */
+:is(.dark, [data-theme='dark']) .gl {
+  --gl-ink: #f4f3f8;
+  --gl-muted: #a6a4b8;
+  --gl-faint: #7f7d90;
+  --gl-bg: #0f0f16;
+  --gl-card: #17161f;
+  --gl-border: #27252f;
+  --gl-indigo: #8f7fff;
+  --gl-gold: #f0b75b;
+  --gl-highlight-1: #8f7fff;
+  --gl-highlight-2: #22d3ee;
+  --gl-shadow: 0 20px 48px -22px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  .gl:not(:is(.light, [data-theme='light']) .gl) {
+    --gl-ink: #f4f3f8;
+    --gl-muted: #a6a4b8;
+    --gl-faint: #7f7d90;
+    --gl-bg: #0f0f16;
+    --gl-card: #17161f;
+    --gl-border: #27252f;
+    --gl-indigo: #8f7fff;
+    --gl-gold: #f0b75b;
+    --gl-highlight-1: #8f7fff;
+    --gl-highlight-2: #22d3ee;
+    --gl-shadow: 0 20px 48px -22px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* gx__* is portalled to <body>, so it needs its own theme hook */
+:is(.dark, [data-theme='dark']) {
+  --gl-ink: #f4f3f8;
+  --gl-muted: #a6a4b8;
+  --gl-faint: #7f7d90;
+  --gl-bg: #0f0f16;
+  --gl-card: #17161f;
+  --gl-border: #27252f;
+  --gl-gold: #f0b75b;
+  --gl-highlight-1: #8f7fff;
+  --gl-highlight-2: #22d3ee;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .gl__card,
+  .gl__card::before,
+  .gl__card-media img,
+  .gl__card-media video,
+  .gl__card-cue,
+  .gl__card-play,
+  .gl__card-shade {
+    transition: none;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1020px) {
+  .gl__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 290px;
+    gap: 22px;
+  }
+  .gl__card--wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 660px) {
+  .gl {
+    padding: 100px 0 110px;
+  }
+  .gl .container {
+    padding: 0 20px;
+  }
+  .gl__grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 300px;
+    gap: 18px;
+  }
+  .gl__card--wide,
+  .gl__card--tall {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  .gl__card--blog {
+    grid-row: auto;
+    min-height: 300px;
+  }
+  .gl__card--normal .gl__card-caption {
+    display: none;
+  }
+  .gl__tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    max-width: 100%;
+  }
+  .gl__tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .gx__overlay {
+    padding: 2vh 12px;
+  }
+  .gx__panel {
+    border-radius: 14px;
+    max-height: 96vh;
+  }
+  .gx__body {
+    padding: 24px 20px 28px;
+  }
+  .gx__title {
+    font-size: 21px;
+  }
+  .gx__media img,
+  .gx__media video {
+    max-height: 44vh;
+  }
+}
