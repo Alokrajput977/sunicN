@@ -112,7 +112,7 @@
 /* ---------- Story ---------- */
 .ab__story {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  grid-template-columns: 1fr 1.35fr;
   gap: 64px;
   align-items: start;
   
@@ -145,7 +145,7 @@
 .ab__story-image {
   width: 100%;
   height: 100%;
-  min-height: 340px;
+  min-height: 440px;
   object-fit: cover;
   border-radius: 16px;
   border: 1px solid var(--ab-border);
@@ -199,6 +199,7 @@
   font-weight: 800;
   letter-spacing: -0.01em;
   margin: 0;
+  padding-bottom:24px;
 }
 
 .ab__journey-sub {
@@ -370,6 +371,7 @@
 
 .ab__public-card .ab__eyebrow {
   margin-bottom: 14px;
+  margin-top: -40px;
 }
 
 .ab__public-card .ab__section-title {
@@ -517,7 +519,7 @@
     gap: 36px;
   }
   .ab__story-image {
-    min-height: 260px;
+    min-height: 320px;
   }
   .ab__public-card ul {
     grid-template-columns: 1fr;

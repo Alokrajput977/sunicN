@@ -80,7 +80,7 @@
   margin: 0 auto;
 }
 
-/* ---------- Department tabs ---------- */
+/* ---------- Department tabs — sliding underline ---------- */
 .cr__tabs-wrap {
   display: flex;
   justify-content: center;
@@ -91,26 +91,29 @@
   position: relative;
   display: inline-flex;
   gap: 4px;
-  padding: 5px;
-  background: var(--cr-card);
-  border: 1px solid var(--cr-border);
-  border-radius: 999px;
-  box-shadow: var(--cr-shadow);
+  padding: 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--cr-border);
+  border-radius: 0;
+  box-shadow: none;
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 30px;
   margin-top: 20px;
 }
 
+/* JS animates only x + width, so this reads as an underline */
 .cr__pill {
   position: absolute;
-  top: 5px;
+  top: auto;
+  bottom: -1px;
   left: 0;
-  height: calc(100% - 10px);
+  height: 2px;
   width: 0;
-  border-radius: 999px;
+  border-radius: 0;
   background: linear-gradient(90deg, var(--cr-highlight-1), var(--cr-highlight-2));
-  z-index: 0;
+  z-index: 1;
 }
 
 .cr__tab {
@@ -122,15 +125,19 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--cr-muted);
-  padding: 9px 16px;
-  border-radius: 999px;
+  padding: 11px 16px 14px;
+  border-radius: 0;
   cursor: pointer;
   transition: color 0.2s ease;
   white-space: nowrap;
 }
 
+.cr__tab:hover {
+  color: var(--cr-ink);
+}
+
 .cr__tab.is-active {
-  color: #ffffff;
+  color: var(--cr-highlight-1);
 }
 
 /* ---------- Job list ---------- */
@@ -154,13 +161,32 @@
   border-radius: 14px;
   padding: 24px 26px;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, padding-left 0.28s ease;
+}
+
+/* gold rule slides in from the left edge on hover */
+.cr__job::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--cr-gold);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .cr__job:hover {
   border-color: var(--cr-highlight-1);
-  transform: translateY(-2px);
   box-shadow: var(--cr-shadow);
+  padding-left: 34px;
+}
+
+.cr__job:hover::before {
+  transform: scaleY(1);
 }
 
 .cr__job-main {
@@ -557,6 +583,9 @@
   .cr__job {
     flex-wrap: wrap;
     gap: 10px;
+  }
+  .cr__job:hover {
+    padding-left: 30px;
   }
   .cr__job-meta {
     align-items: flex-start;

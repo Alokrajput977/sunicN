@@ -126,11 +126,12 @@ const Contact = () => {
     <section className="contact" id="contact" ref={sectionRef}>
       <div className="container contact__inner">
         <div className="contact__copy" ref={copyRef}>
-          <span className="contact__eyebrow">Get started / Waybill request</span>
-          <h2 className="contact__title">Ready to move your next shipment?</h2>
+          <span className="contact__eyebrow">Get started / Project enquiry</span>
+          <h2 className="contact__title">Planning an automation project?</h2>
           <p className="contact__text">
-            Tell us the route and cargo type — our team replies with a rate and
-            transit estimate within one business day.
+            We design and build automation systems for government bodies and private
+            operators alike. Share your site and requirement — our team responds with
+            a scope and feasibility outline within one business day.
           </p>
         </div>
 
@@ -142,44 +143,44 @@ const Contact = () => {
           onSubmit={handleSubmit}
         >
           <div className="contact__card-glow" aria-hidden="true" />
-          <div className="contact__card-tag">WAYBILL / NEW REQUEST</div>
+          <div className="contact__card-tag">PROJECT / NEW ENQUIRY</div>
 
           {submitted ? (
             <div className="contact__success" ref={successRef}>
               <span className="contact__success-mark">✓</span>
-              <p>Request received. Our team will reach out shortly.</p>
+              <p>Enquiry received. Our team will reach out shortly.</p>
             </div>
           ) : (
             <>
               <div className="contact__row">
                 <label>
                   <span>Full name</span>
-                  <input type="text" name="name" placeholder="Jordan Lee" required />
+                  <input type="text" name="name" placeholder="Rahul Sharma" required />
                 </label>
                 <label>
-                  <span>Company</span>
-                  <input type="text" name="company" placeholder="Norwell Retail" />
+                  <span>Organisation</span>
+                  <input type="text" name="company" placeholder="Sunic / Pvt. Ltd." />
                 </label>
               </div>
 
               <div className="contact__row">
                 <label>
-                  <span>Origin</span>
-                  <input type="text" name="origin" placeholder="Mumbai, IN" required />
+                  <span>Project type</span>
+                  <input type="text" name="origin" placeholder="Yard / Gate / Warehouse" required />
                 </label>
                 <label>
-                  <span>Destination</span>
-                  <input type="text" name="destination" placeholder="Rotterdam, NL" required />
+                  <span>Site location</span>
+                  <input type="text" name="destination" placeholder="Delhi, Gujarat" required />
                 </label>
               </div>
 
               <label>
-                <span>Cargo details</span>
-                <textarea name="details" rows="3" placeholder="Cargo type, weight, preferred mode..." />
+                <span>Requirement details</span>
+                <textarea name="details" rows="3" placeholder="Scale of operations, existing systems, timeline..." />
               </label>
 
               <button type="submit" className="btn btn--primary contact__submit">
-                Request a quote
+                Request a consultation
               </button>
             </>
           )}

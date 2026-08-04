@@ -8,78 +8,78 @@ gsap.registerPlugin(ScrollTrigger);
 const ROW_ONE = [
   {
     name: 'Ananya Rao',
-    role: "Ananya's Wellness Studio",
+    role: 'Ops Head, Vantage Port Terminal',
     quote:
-      "We tried two other agencies before this and nothing shipped. Within three weeks our full site was live, booking included. Didn't expect that turnaround.",
+      "We evaluated two other vendors before this and neither could commit to a timeline. Our yard management system went live in under ten weeks, fully integrated with our existing gate systems.",
   },
   {
     name: 'Rohit Malhotra',
-    role: 'Malhotra Automobiles',
+    role: 'Plant Director, Malhotra Industries',
     quote:
-      'Customers now tell us they found us on Google and the site is what convinced them to walk in. Before, it just wasn\u2019t part of the conversation.',
+      'The warehouse automation project cut our pick-pack cycle time in half within the first month. It wasn\u2019t just software, it was a complete rethink of how our floor operates.',
   },
   {
     name: 'Kavya Reddy',
-    role: 'Cafe Bloom',
+    role: 'IT Manager, Reddy Freight Systems',
     quote:
-      'Table reservations used to mean juggling calls all evening. Now guests book straight from the site and we just show up ready.',
+      'Our rake planning used to be a spreadsheet three people fought over daily. Now the rail terminal solution handles allocation automatically and nobody argues about it anymore.',
   },
   {
     name: 'Arjun Nair',
-    role: 'Nair & Associates',
+    role: 'General Manager, Nair Container Yard',
     quote:
-      'Enquiries used to come in as "what do you charge, roughly?" Now they come in with real case details attached. Changes how every first call goes.',
+      'Gate-in and gate-out used to mean queues and paper. The gate automation project brought that down to seconds per truck with full OCR and e-seal verification.',
   },
   {
     name: 'Simran Kaur',
-    role: 'Kaur Fitness Hub',
+    role: 'Head of Operations, Kaur Logistics Park',
     quote:
-      'Trial sign-ups moved online and doubled in the first month. We stopped losing people to a slow WhatsApp reply.',
+      'What impressed us was how the project team stayed on through go-live and the two weeks after. Most vendors disappear the day the system turns on.',
   },
   {
     name: 'Vikram Iyer',
-    role: 'Iyer Consulting',
+    role: 'CIO, Iyer Terminal Services',
     quote:
-      'The new site finally looks like the work we actually do. That alone has changed how prospects treat the first meeting.',
+      'We asked for an automation project that would actually integrate with our legacy systems, not replace everything overnight. That\u2019s exactly what got delivered.',
   },
 ];
 
 const ROW_TWO = [
   {
     name: 'Priya Sharma',
-    role: 'Sharma Dental Clinic',
+    role: 'Terminal Manager, Sharma Port Holdings',
     quote:
-      'Appointments used to run through a diary and missed calls. Patients book their own slot now and no-shows have dropped noticeably.',
+      'Container tracking used to mean radio calls and guesswork. The yard system now shows every box in real time and our turnaround times have dropped noticeably.',
   },
   {
     name: 'Aditya Verma',
-    role: 'Verma Logistics',
+    role: 'Director, Verma Logistics',
     quote:
-      'Our old site listed a phone number and nothing else. Now leads land with actual shipment volumes attached, not just "send rates."',
+      'We brought in Sunic for one automation project and ended up handing them our entire rail and gate integration. That says enough about how the first one went.',
   },
   {
     name: 'Neha Gupta',
-    role: 'Gupta Interiors',
+    role: 'Operations Lead, Gupta Warehousing',
     quote:
-      'People used to ask to see a portfolio over email. Now they\u2019ve already browsed it before they call, so the first conversation is much further along.',
+      'Inventory used to be a manual count every evening. Now the system reconciles itself and flags discrepancies before they become a problem.',
   },
   {
     name: 'Karan Mehta',
-    role: 'Mehta Real Estate',
+    role: 'VP Operations, Mehta Rail Freight',
     quote:
-      'Listings update themselves and buyers filter by budget on their own. That used to be a full-time job on the phone.',
+      'Wagon tracking and intermodal handoff were our biggest bottleneck. The project team understood the problem faster than any vendor we\u2019d spoken to before.',
   },
   {
     name: 'Divya Menon',
-    role: 'Menon Yoga Studio',
+    role: 'IT Head, Menon Container Services',
     quote:
-      'Class schedules kept changing and nobody could keep track over text. The site now stays current on its own and students just check it.',
+      'Every automation vendor promises zero downtime during rollout. This was the first time we actually got it, migrated over a single weekend.',
   },
   {
     name: 'Suresh Pillai',
-    role: 'Pillai Traders',
+    role: 'Managing Director, Pillai Port Services',
     quote:
-      'We wanted something we wouldn\u2019t be embarrassed to send a new buyer. That\u2019s exactly what we got, and it shows in how fast deals now close.',
+      'We wanted a partner who could scope, build and support the whole project end to end. That\u2019s what we got, and it shows in how fast our terminal now runs.',
   },
 ];
 
@@ -202,10 +202,10 @@ const Testimonials = () => {
       <div className="tm__head">
         <span className="tm__eyebrow">Client Stories</span>
         <h2 className="tm__title">
-          What our <span className="tm__title-accent">clients</span> say
+          What our <span className="tm__title-accent">partners</span> say
         </h2>
         <p className="tm__subtitle">
-          Real feedback from businesses across India that put their site to work.
+          Real feedback from ports, terminals and warehouses that run on Sunic Technologies projects.
         </p>
       </div>
 

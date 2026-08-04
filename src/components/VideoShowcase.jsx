@@ -14,22 +14,22 @@ const CARDS = [
     id: 'a',
     accent: 'teal',
     src: fleetVideo,
-    title: 'Book freight in one move',
-    body: 'Request a quote from a single form — no separate calls per mode. We match ocean, air, rail or road to your cargo automatically.',
+    title: 'Rail crane, fully automated',
+    body: 'Gantry and rail-mounted cranes operate on automated cycles — lifting, moving and positioning containers without manual coordination at every step.',
   },
   {
     id: 'b',
     accent: 'amber',
     src: portVideo,
-    title: 'Every leg, mapped and tracked',
-    body: 'See live location, ETA and exceptions the moment they happen — no more calling for updates.',
+    title: 'Container and wagon reading',
+    body: 'OCR captures container numbers and wagon IDs the moment they enter the yard — matched, verified and logged automatically, no clipboards involved.',
   },
   {
     id: 'c',
     accent: 'violet',
     src: warehouseVideo,
-    title: 'Full visibility, every shipment',
-    body: 'One dashboard for the whole network — consistent tracking data across every carrier, mode and region.',
+    title: 'Precise slot placement',
+    body: 'Every container is lifted and placed at its assigned yard location automatically — the system decides the slot, the crane executes it.',
   },
 ];
 
@@ -146,14 +146,14 @@ const VideoShowcase = () => {
     <section className="why" id="watch" ref={sectionRef}>
       <div className="container">
         <div className="why__head">
-          <span className="eyebrow">Why Vectra / The difference</span>
+          <span className="eyebrow">Sunic Technologies / Yard automation</span>
           <h2 className="why__title">
-            <span className="why__title-line">WHY SHIP WITH</span>
-            <span className="why__title-line why__title-line--accent">VECTRA'S NETWORK?</span>
+            <span className="why__title-line">AUTOMATION THAT RUNS</span>
+            <span className="why__title-line why__title-line--accent">THE ENTIRE YARD</span>
           </h2>
           <p className="why__subtitle">
-            Most carriers move boxes. Vectra moves freight with visibility,
-            speed, and a workflow built for real operations.
+            From crane movement to container identification to slot allocation — our yard
+            automation project handles the full cycle, with no manual tracking in between.
           </p>
         </div>
 

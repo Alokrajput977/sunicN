@@ -13,30 +13,30 @@ const MODES = [
   {
     n: '1',
     accent: 'teal',
-    code: 'MODE / OCEAN',
-    title: 'Ocean Freight',
-    desc: 'Full and part container loads across 60+ trade lanes, with port-to-port or door-to-door routing.',
+    code: 'PRODUCT / YARD',
+    title: 'Yard Management System',
+    desc: 'End-to-end container yard visibility — track, allocate and move every box in real time across your terminal.',
   },
   {
     n: '2',
     accent: 'amber',
-    code: 'MODE / RAIL',
-    title: 'Rail Freight',
-    desc: 'Heavy and bulk cargo moved on intermodal rail, built for cost-efficient long-haul volume.',
+    code: 'PRODUCT / WAREHOUSE',
+    title: 'Warehouse Automation',
+    desc: 'Smart storage, pick-pack-ship and inventory control built to run bonded and cross-dock warehouses at scale.',
   },
   {
     n: '3',
     accent: 'rose',
-    code: 'NETWORK / YARD',
-    title: 'Container Yard',
-    desc: 'RTG and reach-stacker fleets handling fast turnaround between vessel, rail and road at every hub.',
+    code: 'PRODUCT / RAIL',
+    title: 'Rail Terminal Solutions',
+    desc: 'Rake planning, wagon tracking and intermodal handoff tools that keep rail-linked terminals moving without delay.',
   },
   {
     n: '4',
     accent: 'violet',
-    code: 'FACILITY / WAREHOUSE',
-    title: 'Warehouse & Distribution',
-    desc: 'Cross-dock and bonded storage with pick-pack-ship fulfillment, built into the same freight network.',
+    code: 'PRODUCT / GATE',
+    title: 'Gate Automation',
+    desc: 'Unmanned gate-in / gate-out with OCR, e-seal verification and digital documentation — zero paperwork, zero queues.',
   },
 ];
 
@@ -98,7 +98,8 @@ const MediaPanel = () => {
 };
 
 /* ==========================================================================
-   Section — pins in place while the 4 cards reveal one after another
+   Section — heading reveals + locks at top while pinned, then the 4 cards
+   and video reveal on the scrubbed timeline underneath it
    ========================================================================== */
 
 const Services = () => {
@@ -106,26 +107,29 @@ const Services = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Heading: plain (non-scrubbed) reveal. Fires as it scrolls into view,
+      // well BEFORE the pin engages — so by the time it locks to the top,
+      // it's already fully visible.
       gsap.from('.services__head > *', {
         y: 24,
         opacity: 0,
         duration: 0.7,
         stagger: 0.1,
         ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+        scrollTrigger: { trigger: '.services__head', start: 'top 88%' },
       });
 
       const mm = gsap.matchMedia();
 
-      // Desktop / tablet — pin the section. The video and the 4 cards all
-      // live on the SAME scrubbed timeline, so scrolling up/down inside the
-      // pinned range always replays their motion in sync, every time.
+      // Desktop / tablet — pin the section. Heading sits at the top of the
+      // pinned box, so it locks in place naturally when pinning engages.
+      // Video + cards then animate on the same scrubbed timeline as before.
       mm.add('(min-width: 900px)', () => {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: '.services__pin',
             start: 'top top',
-            end: '+=180%',
+            end: '+=200%',
             scrub: 0.8,
             pin: true,
             anticipatePin: 1,
@@ -169,7 +173,7 @@ const Services = () => {
           duration: 0.7,
           stagger: 0.15,
           ease: 'power3.out',
-           scrollTrigger: { trigger: '.services__stack', start: 'top 85%' },
+          scrollTrigger: { trigger: '.services__stack', start: 'top 85%' },
         });
       });
     }, sectionRef);
@@ -180,25 +184,28 @@ const Services = () => {
   return (
     <section className="services" id="services" ref={sectionRef}>
       <div className="container">
-        <div className="services__head">
-          <span className="eyebrow">Network / Freight modes</span>
-          <h2 className="services__title">Powering CONCOR's
-Operations</h2>
-          <p className="services__sub">
-            Route freight across ocean, air, ground and rail from a single dashboard —
-            we match the mode to your cargo, timeline and budget.
-          </p>
-        </div>
-
         <div className="services__pin">
-          <div className="services__stack">
-            {MODES.map((mode) => (
-              <StackCard mode={mode} key={mode.n} />
-            ))}
+          <div className="services__head">
+            <span className="eyebrow">Sunic Technologies / Our Products</span>
+            <h2 className="services__title">Products That Run
+The Terminal</h2>
+            <p className="services__sub">
+              Sunic Technologies builds and delivers ready-to-deploy automation products for ports,
+              rail terminals and warehouses — from yard operations to gate control, engineered as
+              projects tailored to your site.
+            </p>
           </div>
 
-          <div className="services__panel">
-            <MediaPanel />
+          <div className="services__row">
+            <div className="services__stack">
+              {MODES.map((mode) => (
+                <StackCard mode={mode} key={mode.n} />
+              ))}
+            </div>
+
+            <div className="services__panel">
+              <MediaPanel />
+            </div>
           </div>
         </div>
       </div>

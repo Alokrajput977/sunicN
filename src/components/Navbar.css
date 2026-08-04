@@ -25,6 +25,22 @@
   gap: 24px;
 }
 
+
+.navbar__logo-img {
+  height: 168px;
+  width: auto;
+  display: block;
+  margin: -27px 0;   /* 168 - 67*2 = 34px effective → navbar height same rahegi */
+  transition: height 0.5s var(--ease-out), margin 0.5s var(--ease-out);
+  position: relative;
+  z-index: 1;
+}
+
+.navbar--scrolled .navbar__logo-img {
+  height: 100px;      /* pehle 54px tha, bahut chota lag raha tha — ab better proportion */
+  margin: -33px 0;    /* 100 - 33*2 = 34px effective, same as above */
+}
+
 .navbar__logo {
   display: flex;
   align-items: center;

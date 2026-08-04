@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 ---------------------------------------------------------------- */
 const STATS = [
   { label: 'Years in operation', value: 9, suffix: '+' },
-  { label: 'Clients served', value: 40, suffix: '+' },
+  { label: 'Automation projects delivered', value: 60, suffix: '+' },
   { label: 'Government projects delivered', value: 15, suffix: '+' },
   { label: 'Client retention', value: 98, suffix: '%' },
 ];
@@ -52,26 +52,26 @@ const JOURNEY = [
 
 const SERVICES = [
   {
+    title: 'Automation Projects',
+    desc: 'We build and sell end-to-end automation systems — yard, gate, warehouse and rail operations that run on their own instead of on manual coordination.',
+  },
+  {
+    title: '3D Modeling & Digital Twins',
+    desc: 'Full 3D models of sites, yards and facilities — a working digital replica of the real area, used for planning, simulation and live operational monitoring.',
+  },
+  {
     title: 'Custom Software Development',
     desc: 'Web and enterprise applications built around how your teams actually work, not the other way round.',
   },
   {
-    title: 'Process Automation',
-    desc: 'RPA and workflow automation that removes manual, repetitive work from finance, operations, and compliance teams.',
-  },
-  {
-    title: 'Database & Hosting Space',
-    desc: 'Managed database and server hosting for clients who need reliable, always-on infrastructure without running it themselves.',
-  },
-  {
     title: 'Government & Public Sector Solutions',
-    desc: 'Citizen-facing portals, departmental digitization, and e-governance platforms built to public sector security and compliance standards.',
+    desc: 'Departmental digitization, citizen-facing portals and large automation deployments built to public sector security and compliance standards.',
   },
 ];
 
 const PUBLIC_SECTOR_POINTS = [
-  'Departmental workflow digitization and file-tracking systems',
-  'Citizen-facing service and grievance portals',
+  'Large-scale automation deployments across departmental and terminal sites',
+  '3D site modeling and digital twins for planning, approvals and monitoring',
   'Data security aligned with public sector compliance requirements',
   'Long-term maintenance and support contracts, not one-off builds',
 ];
@@ -198,11 +198,12 @@ const About = () => {
           <span className="ab__badge ab__reveal">🇮🇳 Proudly built in India</span>
           <span className="ab__eyebrow ab__reveal">About Sunic Technologies</span>
           <h1 className="ab__title ab__reveal">
-            Software and automation, built for how India works
+            Automation, software, and <span style={{ color: '#5b4cf0' }}>3D built</span>  for real operations
           </h1>
           <p className="ab__subtitle ab__reveal">
-            We're a Gurugram-based IT company designing, building, and selling software and
-            automation solutions — for private enterprises and government departments alike.
+            We're a Gurugram-based IT company that builds and sells automation projects,
+            3D site models, and enterprise software — for private operators and government
+            departments alike.
           </p>
         </div>
 
@@ -210,17 +211,18 @@ const About = () => {
         <div className="container-wide ab__story">
           <div className="ab__story-text">
             <p className="ab__reveal">
-              Sunic Technologies was started with a simple premise: most organizations don't need
-              more software, they need software that actually gets used. We work as a technology
-              partner for clients across banking, retail, manufacturing, and SaaS — designing
-              systems that fit into how a team already operates instead of forcing a new process
-              on top of it.
+              Sunic Technologies is an IT company built around a simple premise: most organizations
+              don't need more software, they need systems that actually run. We design, build and
+              sell automation projects — yard, gate, warehouse and terminal operations — along with
+              full 3D models of the sites they run on, so teams can see and plan the real area
+              before a single change is made on the ground.
             </p>
             <p className="ab__reveal">
-              A meaningful part of our work is with the public sector. We implement digitization
-              and automation projects for government departments and public sector undertakings —
-              departmental workflow systems, citizen-facing service portals, and the compliance
-              and data-security groundwork that kind of work demands.
+              A large part of our work is with the public sector, and it's the work we're proudest
+              of. We've delivered a significant number of government projects — departmental
+              automation, digitization and 3D site modeling — and the response has been consistently
+              strong, with departments returning to us for the next phase long after the first one
+              went live.
             </p>
           </div>
 
@@ -300,11 +302,13 @@ const About = () => {
         <div className="container-wide ab__public">
           <div className="ab__public-card ab__reveal">
             <span className="ab__eyebrow">Public sector</span>
-            <h2 className="ab__section-title">Built for the public sector, not adapted for it</h2>
+            <h2 className="ab__section-title">Trusted with government projects, again and again</h2>
             <p>
               Government engagements come with a different bar — longer timelines, stricter
               compliance, and systems that need to keep working long after the initial contract
-              ends. We plan for that from day one.
+              ends. We've delivered a large number of these projects, and the response has been
+              consistently strong: departments come back to us for the next site, the next phase,
+              the next automation rollout.
             </p>
             <ul>
               {PUBLIC_SECTOR_POINTS.map((point) => (
@@ -323,12 +327,12 @@ const About = () => {
               "
             </span>
             <p>
-              We don't measure a project by the demo — we measure it by whether it's still
-              running, unattended, two years later. That's a different discipline than most
+              We don't measure an automation project by the demo — we measure it by whether it's
+              still running, unattended, two years later. That's a different discipline than most
               software companies operate under, and it's the one we've built Sunic around.
             </p>
             <footer>
-              <span className="ab__quote-name">Rohan Malhotra</span>
+              <span className="ab__quote-name">Manmohan Rana Singh</span>
               <span className="ab__quote-role">Founder &amp; CEO, Sunic Technologies</span>
             </footer>
           </blockquote>

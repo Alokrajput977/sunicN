@@ -26,12 +26,7 @@ const Navbar = () => {
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <div className="container navbar__inner">
         <Link to="/" className="navbar__logo" aria-label="Sunic Logistics home">
-          <span className="navbar__logo-mark">
-            <span className="navbar__logo-dot" />
-          </span>
-          <span className="navbar__logo-text">
-            SUNIC<span className="navbar__logo-sub">LOGISTICS</span>
-          </span>
+          <img src="/logo.png" alt="Sunic Logistics" className="navbar__logo-img" />
         </Link>
 
         <nav className={`navbar__links ${menuOpen ? 'navbar__links--open' : ''}`}>

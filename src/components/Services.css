@@ -1,11 +1,6 @@
 .services {
-  padding: 140px 0 60px;
+  padding: 60px 0 60px;
   position: relative;
-}
-
-.services__head {
-  max-width: 680px;
-  margin-bottom: 60px;
 }
 
 .services__title {
@@ -20,15 +15,27 @@
   line-height: 1.6;
 }
 
-/* ---------- Pinned two-column stage ---------- */
+/* ---------- Pinned stage: heading on top, row below ---------- */
 
 .services__pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 48px;
+  min-height: 100vh;
+  padding: 60px 0 80px;
+}
+
+.services__head {
+  margin-top: 80px;
+  max-width: 680px;
+}
+
+.services__row {
   display: grid;
   grid-template-columns: minmax(300px, 380px) 1.3fr;
   gap: 56px;
   align-items: center;
-  min-height: 100vh;
-  padding: 40px 0 80px;
 }
 
 .services__stack {
@@ -126,9 +133,13 @@
 
 @media (max-width: 899px) {
   .services__pin {
-    grid-template-columns: 1fr;
     min-height: auto;
     padding: 0 0 40px;
+    gap: 32px;
+  }
+
+  .services__row {
+    grid-template-columns: 1fr;
     gap: 40px;
   }
 
