@@ -366,6 +366,9 @@
   margin-top: 40px;
 }
 
+
+
+
 /* ---------- Dark / light mode ---------- */
 :is(.light, [data-theme='light']) .ftr {
   --ftr-ink: #16151d;

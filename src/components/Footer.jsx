@@ -76,7 +76,7 @@ const HoverColumn = ({ title, items }) => {
             key={item}
             onMouseEnter={(e) => moveBar(e.currentTarget)}
           >
-            <a href="#" className="ftr__link">
+            <a href="/" className="ftr__link" onClick={(e) => e.preventDefault()}>
               {item}
             </a>
           </li>
