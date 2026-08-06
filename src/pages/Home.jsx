@@ -11,11 +11,6 @@ import Contact from '../components/Contact';
 const Home = () => {
   const location = useLocation();
 
-  /* react-router doesn't auto-scroll to a hash on navigation the
-     way a plain <a href="#services"> does within a single page —
-     so if we arrived here as "/#services" (e.g. clicked "Modes"
-     while on /careers), find that section and scroll to it
-     ourselves once this page has rendered. */
   useEffect(() => {
     if (!location.hash) return;
     const el = document.querySelector(location.hash);
