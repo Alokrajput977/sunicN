@@ -3,6 +3,7 @@
   min-height: 100vh;
   padding: 150px 0 80px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* ---------- Backdrop ---------- */
@@ -40,12 +41,13 @@
   z-index: 1;
 }
 
-/* ---------- Copy (centered, screenshot-style) ---------- */
+/* ---------- Copy ---------- */
 
 .hero__copy {
   max-width: 960px;
   margin: 0 auto;
   text-align: center;
+  padding: 0 8px;
 }
 
 .hero__title {
@@ -55,6 +57,7 @@
   line-height: 1.02;
   letter-spacing: -0.01em;
   margin-bottom: 22px;
+  word-break: break-word;
 }
 
 .hero__title-line {
@@ -73,11 +76,11 @@
   line-height: 1.6;
 }
 
-/* Plain rating line — no pill, no border, sits directly on the background */
 .hero__badge {
   display: flex;
   align-items: baseline;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 26px;
   font-size: 0.92rem;
@@ -98,7 +101,6 @@
   color: var(--text-secondary);
 }
 
-/* Solid pill CTA, matching the screenshot's plain white button */
 .hero__cta {
   display: inline-flex;
   align-items: center;
@@ -110,6 +112,7 @@
   font-weight: 600;
   font-size: 0.98rem;
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+  white-space: nowrap;
 }
 
 .hero__cta:hover {
@@ -118,9 +121,7 @@
 }
 
 /* ==========================================================================
-   Collage — percentage-based positions so the composition keeps the same
-   proportions at any container width (matches the reference screenshots).
-   Reference box ratio ≈ 2282 : 1062.
+   Collage
    ========================================================================== */
 
 .hero__collage {
@@ -146,6 +147,7 @@
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
+  cursor: pointer;
 }
 
 .hero__tile-media {
@@ -153,6 +155,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: filter 0.3s ease;
+}
+
+.hero__tile-inner:hover .hero__tile-media {
+  filter: brightness(0.88);
 }
 
 .hero__tile-rec {
@@ -187,10 +194,36 @@
   padding: 6px 9px;
   border-radius: 8px;
   transform: translateZ(20px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Six tiles, positioned as percentages of the collage box — proportions
-   pulled directly from the reference layout. */
+/* Small "double-click to expand" hint, fades in on hover (desktop only) */
+.hero__tile-expand-hint {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.03em;
+  color: #f4f6ff;
+  background: rgba(5, 7, 18, 0.55);
+  backdrop-filter: blur(6px);
+  padding: 5px 9px;
+  border-radius: 999px;
+  transform: translateZ(20px);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.hero__tile-inner:hover .hero__tile-expand-hint {
+  opacity: 1;
+}
+
+/* Six tiles, positioned as percentages of the collage box */
 .hero__tile--a { left: 0%;     top: 0%;     width: 20.5%; height: 40.8%; transform: rotate(-4deg); z-index: 2; }
 .hero__tile--b { left: 8.4%;   top: 10.1%;  width: 22%;   height: 59.6%; transform: rotate(2deg);  z-index: 3; }
 .hero__tile--c { left: 27.1%;  top: 30.3%;  width: 40.6%; height: 48.3%; transform: rotate(0deg);  z-index: 4; }
@@ -198,7 +231,81 @@
 .hero__tile--e { left: 80.5%;  top: 4%;     width: 30.5%; height: 50%;   transform: rotate(-2deg); z-index: 1; }
 .hero__tile--f { left: 63%;    top: 60.3%;  width: 20.9%; height: 40.7%; transform: rotate(10deg);  z-index: 3; }
 
-/* ---------- Responsive ---------- */
+/* ==========================================================================
+   Video lightbox — blurred backdrop, large centered video
+   ========================================================================== */
+
+.hero-lb__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh 20px;
+  background: rgba(6, 6, 12, 0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.hero-lb__panel {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  border-radius: var(--radius-md, 16px);
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.6);
+}
+
+.hero-lb__video {
+  width: 100%;
+  max-height: 90vh;
+  display: block;
+  object-fit: contain;
+  background: #000;
+}
+
+.hero-lb__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(6, 6, 12, 0.55);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.hero-lb__close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
+}
+
+.hero-lb__label {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #f4f6ff;
+  background: rgba(5, 7, 18, 0.55);
+  backdrop-filter: blur(6px);
+  padding: 7px 13px;
+  border-radius: 999px;
+}
+
+/* ============================================================
+   RESPONSIVE — cascades from tablet down to 300px phones.
+   ============================================================ */
 
 @media (max-width: 1240px) {
   .hero__collage {
@@ -212,6 +319,7 @@
     padding: 16px 4px 26px;
     scroll-snap-type: x proximity;
     margin-top: 48px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .hero__tile {
@@ -224,17 +332,183 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .hero {
-    padding: 130px 0 40px;
+    padding: 140px 0 60px;
+  }
+  .hero__subtitle {
+    font-size: 1.02rem;
+  }
+}
+
+@media (max-width: 780px) {
+  .hero {
+    padding: 128px 0 56px;
+    min-height: auto;
+  }
+  .hero__glow {
+    width: 380px;
+    height: 380px;
+    filter: blur(80px);
+  }
+  .hero__title {
+    margin-bottom: 18px;
+  }
+  .hero__subtitle {
+    margin-bottom: 24px;
+  }
+  .hero__collage {
+    margin-top: 40px;
+  }
+  .hero-lb__panel {
+    max-width: 92vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 108px 0 44px;
+  }
+
+  .hero__copy {
+    padding: 0 4px;
+  }
+
+  .hero__glow {
+    width: 280px;
+    height: 280px;
+    filter: blur(60px);
+    opacity: 0.3;
+  }
+  .hero__glow--amber {
+    opacity: 0.18;
+  }
+
+  .hero__title {
+    font-size: clamp(1.9rem, 8.5vw, 2.6rem);
+    line-height: 1.08;
+    margin-bottom: 16px;
+  }
+
+  .hero__subtitle {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .hero__badge {
+    font-size: 0.82rem;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .hero__stars {
+    font-size: 0.75rem;
   }
 
   .hero__cta {
     width: 100%;
+    padding: 14px 24px;
+    font-size: 0.92rem;
+  }
+
+  .hero__collage {
+    margin-top: 30px;
+    gap: 12px;
+    padding: 12px 4px 22px;
   }
 
   .hero__tile {
-    width: 180px;
-    height: 240px;
+    width: 168px;
+    height: 216px;
+  }
+
+  .hero__tile-badge {
+    font-size: 0.58rem;
+    padding: 5px 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+  }
+
+  .hero__tile-rec {
+    top: 10px;
+    right: 10px;
+    width: 6px;
+    height: 6px;
+  }
+
+  /* Expand hint stays visible on touch devices since there's no hover */
+  .hero__tile-expand-hint {
+    opacity: 1;
+    top: 8px;
+    left: 8px;
+    font-size: 0.52rem;
+    padding: 4px 7px;
+  }
+
+  .hero-lb__overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .hero-lb__panel {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 18px 18px 0 0;
+  }
+  .hero-lb__video {
+    max-height: 80vh;
+  }
+  .hero-lb__close {
+    width: 36px;
+    height: 36px;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero {
+    padding: 100px 0 36px;
+  }
+
+  .hero__title {
+    font-size: clamp(1.65rem, 9vw, 2.1rem);
+  }
+
+  .hero__subtitle {
+    font-size: 0.88rem;
+  }
+
+  .hero__badge {
+    font-size: 0.76rem;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hero__cta {
+    padding: 13px 20px;
+    font-size: 0.88rem;
+  }
+
+  .hero__tile {
+    width: 148px;
+    height: 190px;
+  }
+
+  .hero__tile-badge {
+    font-size: 0.55rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .hero__copy {
+    padding: 0 2px;
+  }
+  .hero__title {
+    font-size: 1.5rem;
+  }
+  .hero__tile {
+    width: 132px;
+    height: 172px;
   }
 }

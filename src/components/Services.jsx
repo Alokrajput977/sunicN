@@ -3,11 +3,15 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Services.css';
 
-// NOTE: placeholder clip from src/video — swap for your own real port /
-// route footage before launch.
-import railVideo from '../video/yard.mp4';
-
 gsap.registerPlugin(ScrollTrigger);
+
+/* ================================================================
+   VIDEO — direct URL link. Swap for your own hosted video link any
+   time (Cloudinary, S3, your own CDN, etc.) — no other code
+   changes needed.
+   ================================================================ */
+const railVideo =
+  'https://res.cloudinary.com/kajpumjn/video/upload/v1785916712/istockphoto-500124416-640_adpp_is_kuoi8l.mp4';
 
 const MODES = [
   {
@@ -106,10 +110,9 @@ const Services = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const ctx = gsap.context(() => {
-      // Heading: plain (non-scrubbed) reveal. Fires as it scrolls into view,
-      // well BEFORE the pin engages — so by the time it locks to the top,
-      // it's already fully visible.
       gsap.from('.services__head > *', {
         y: 24,
         opacity: 0,
@@ -119,11 +122,15 @@ const Services = () => {
         scrollTrigger: { trigger: '.services__head', start: 'top 88%' },
       });
 
+      if (prefersReducedMotion) {
+        gsap.set(['.media-panel', '.stack-card'], { xPercent: 0, y: 0, opacity: 1 });
+        return;
+      }
+
       const mm = gsap.matchMedia();
 
       // Desktop / tablet — pin the section. Heading sits at the top of the
       // pinned box, so it locks in place naturally when pinning engages.
-      // Video + cards then animate on the same scrubbed timeline as before.
       mm.add('(min-width: 900px)', () => {
         const tl = gsap.timeline({
           scrollTrigger: {

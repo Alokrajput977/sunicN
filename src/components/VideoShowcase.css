@@ -1,5 +1,12 @@
 .why {
   padding: 130px 0 150px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.why .container {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .why__head {
@@ -13,6 +20,7 @@
   text-transform: uppercase;
   line-height: 1.06;
   margin: 16px 0 20px;
+  word-break: break-word;
 }
 
 .why__title-line {
@@ -89,6 +97,7 @@
   border-radius: var(--radius-md);
   padding: 20px 22px;
   transform: translateZ(30px);
+  box-sizing: border-box;
 }
 
 .why__card-bar {
@@ -118,9 +127,21 @@
   color: #c7cbe6;
 }
 
-/* ---------- Responsive: stack vertically ---------- */
+/* ============================================================
+   RESPONSIVE — cascades from tablet down to 300px phones,
+   same breakpoint structure used across the rest of the site.
+   ============================================================ */
 
+/* ---- Tablet and below: stack vertically ---- */
 @media (max-width: 980px) {
+  .why {
+    padding: 96px 0 100px;
+  }
+
+  .why__head {
+    margin-bottom: 40px;
+  }
+
   .why__grid {
     position: static;
     aspect-ratio: auto;
@@ -136,5 +157,122 @@
     width: 100% !important;
     height: auto !important;
     aspect-ratio: 4 / 3;
+  }
+}
+
+/* ---- Large phones / small tablets (≤ 780px) ---- */
+@media (max-width: 780px) {
+  .why {
+    padding: 80px 0 88px;
+  }
+
+  .why__title {
+    margin: 12px 0 16px;
+  }
+
+  .why__subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* ---- Standard phones incl. iPhone X/11/12/13 (~375–428px) ---- */
+@media (max-width: 480px) {
+  .why {
+    padding: 64px 0 72px;
+  }
+
+  .why__head {
+    margin-bottom: 28px;
+  }
+
+  .why__title {
+    font-size: clamp(1.65rem, 8vw, 2.2rem);
+    margin: 10px 0 12px;
+  }
+
+  .why__subtitle {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .why__grid {
+    gap: 14px;
+  }
+
+  .why__card {
+    aspect-ratio: 5 / 4;
+    border-radius: var(--radius-md);
+  }
+
+  .why__card-caption {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 14px 16px;
+  }
+
+  .why__card-bar {
+    width: 24px;
+    height: 2.5px;
+    margin-bottom: 8px;
+  }
+
+  .why__card-caption h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .why__card-caption p {
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+}
+
+/* ---- Very small phones (≤360px, iPhone SE / 300px-class) ---- */
+@media (max-width: 360px) {
+  .why {
+    padding: 52px 0 60px;
+  }
+
+  .why__title {
+    font-size: clamp(1.4rem, 8.5vw, 1.9rem);
+  }
+
+  .why__subtitle {
+    font-size: 0.86rem;
+  }
+
+  .why__card {
+    aspect-ratio: 1 / 1;
+  }
+
+  .why__card-caption {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 12px 13px;
+  }
+
+  .why__card-caption h3 {
+    font-size: 0.92rem;
+  }
+
+  .why__card-caption p {
+    font-size: 0.73rem;
+  }
+}
+
+/* ---- Extra-narrow safety net (≤300px) ---- */
+@media (max-width: 300px) {
+  .why__card {
+    aspect-ratio: 4 / 5;
+  }
+
+  .why__card-caption {
+    padding: 10px 11px;
+  }
+
+  .why__card-caption p {
+    display: none; /* body text drops at this width; title + bar still read fine */
   }
 }

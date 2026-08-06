@@ -3,11 +3,15 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './About.css';
 
-// NOTE: placeholder clip from src/video — swap for your own real gate /
-// yard-entry footage before launch.
-import yardVideo from '../video/two.mp4';
-
 gsap.registerPlugin(ScrollTrigger);
+
+/* ================================================================
+   VIDEO — direct URL link. Swap for your own hosted gate / yard
+   entry footage any time (Cloudinary, S3, your own CDN, etc.) —
+   no other code changes needed.
+   ================================================================ */
+const yardVideo =
+  'https://res.cloudinary.com/kajpumjn/video/upload/v1785918084/istockphoto-1279548706-640_adpp_is_online-video-cutter.com_chwlhb.mp4';
 
 const STEPS = [
   {
@@ -32,7 +36,18 @@ const About = () => {
   const graphicRef = useRef(null);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set(['.about__graphic', '.about__copy', '.about__point'], {
+          x: 0,
+          xPercent: 0,
+          opacity: 1,
+        });
+        return;
+      }
+
       // Slow parallax drift on the graphic as the section scrolls through
       gsap.to(graphicRef.current, {
         yPercent: -12,

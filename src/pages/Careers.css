@@ -40,6 +40,8 @@
   max-width: 980px;
   margin: 0 auto;
   padding: 0 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ---------- Header ---------- */
@@ -70,6 +72,7 @@
   letter-spacing: -0.01em;
   line-height: 1.15;
   margin: 0 0 18px;
+  word-break: break-word;
 }
 
 .cr__subtitle {
@@ -101,6 +104,7 @@
   justify-content: center;
   margin-bottom: 30px;
   margin-top: 20px;
+  max-width: 100%;
 }
 
 /* JS animates only x + width, so this reads as an underline */
@@ -163,6 +167,8 @@
   cursor: pointer;
   overflow: hidden;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, padding-left 0.28s ease;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 /* gold rule slides in from the left edge on hover */
@@ -210,6 +216,7 @@
   font-size: 17px;
   font-weight: 700;
   margin: 0;
+  word-break: break-word;
 }
 
 .cr__job-meta {
@@ -249,6 +256,7 @@
   justify-content: center;
   padding: 5vh 20px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .jm__panel {
@@ -263,6 +271,8 @@
   padding: 40px 40px 36px;
   font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
   margin-top: 140px;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .jm__close {
@@ -303,6 +313,7 @@
   font-weight: 800;
   letter-spacing: -0.01em;
   margin: 8px 0 14px;
+  word-break: break-word;
 }
 
 .jm__title--tight {
@@ -370,6 +381,7 @@
   background: linear-gradient(135deg, var(--cr-highlight-1), var(--cr-highlight-2));
   box-shadow: 0 14px 30px -14px rgba(91, 76, 240, 0.6);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
 .jm__cta:hover {
@@ -431,6 +443,7 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--cr-muted);
+  min-width: 0;
 }
 
 .jm__form input,
@@ -445,6 +458,8 @@
   outline: none;
   resize: vertical;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .jm__form input:focus,
@@ -575,33 +590,210 @@
   --cr-success: #34b57c;
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 640px) {
+/* ============================================================
+   RESPONSIVE — cascades from tablet down to 300px phones.
+   Mirrors the breakpoint structure used on the Contact page.
+   ============================================================ */
+
+/* ---- Tablet / small laptop (≤1080px) ---- */
+@media (max-width: 1080px) {
+  .cr .container {
+    max-width: 100%;
+  }
+}
+
+/* ---- Large phones / small tablets (≤780px) ---- */
+@media (max-width: 780px) {
   .cr {
-    padding: 128px 0 90px;
+    padding: 148px 0 100px;
+  }
+  .cr__head {
+    margin-bottom: 48px;
+  }
+  .cr__title {
+    font-size: clamp(28px, 5.6vw, 40px);
+  }
+  .cr__tabs-wrap {
+    margin-bottom: 40px;
+  }
+  .jm__panel {
+    max-width: 560px;
+    padding: 34px 30px 30px;
+  }
+}
+
+/* ---- Standard phones incl. iPhone X/11/12/13 (~375–428px) ---- */
+@media (max-width: 480px) {
+  .cr {
+    padding: 108px 0 72px;
+  }
+
+  .cr .container {
+    padding: 0 18px;
+  }
+
+  .cr__head {
+    margin-bottom: 36px;
+  }
+
+  .cr__eyebrow {
+    font-size: 10.5px;
+    padding: 5px 12px;
+    margin-bottom: 16px;
+  }
+
+  .cr__title {
+    font-size: clamp(24px, 7.5vw, 30px);
+    margin-bottom: 14px;
+  }
+
+  .cr__subtitle {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  /* Tabs: horizontal scroll instead of wrap, so labels never
+     collide on very narrow screens */
+  .cr__tabs-wrap {
+    margin-bottom: 32px;
+    justify-content: flex-start;
+  }
+  .cr__tabs {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 14px;
+  }
+  .cr__tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .cr__tab {
+    padding: 10px 13px 12px;
+    font-size: 12.5px;
+  }
+
+  /* Job cards: stack meta below the title, no forced right-align */
+  .cr__list {
+    gap: 12px;
   }
   .cr__job {
+    align-items: flex-start;
+    gap: 8px;
+    padding: 18px 16px;
     flex-wrap: wrap;
-    gap: 10px;
   }
   .cr__job:hover {
-    padding-left: 30px;
+    padding-left: 22px;
+  }
+  .cr__job-main {
+    order: 1;
+    flex: 1 1 100%;
+    gap: 6px;
+  }
+  .cr__job-title {
+    font-size: 15.5px;
   }
   .cr__job-meta {
+    order: 2;
+    flex: 1 1 100%;
     align-items: flex-start;
     text-align: left;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px 12px;
+    font-size: 11.5px;
   }
   .cr__job-arrow {
     display: none;
   }
+
+  /* Modal */
+  .jm__overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
   .jm__panel {
-    padding: 32px 22px 28px;
-    border-radius: 16px;
+    max-width: 100%;
+    width: 100%;
+    margin-top: 0;
+    border-radius: 18px 18px 0 0;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 28px 20px 26px;
+  }
+  .jm__close {
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+  }
+  .jm__title {
+    font-size: 21px;
+    margin: 6px 0 12px;
+  }
+  .jm__meta {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .jm__meta span {
+    font-size: 11.5px;
+    padding: 4px 10px;
+  }
+  .jm__summary {
+    font-size: 14px;
   }
   .jm__row {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .jm__form input,
+  .jm__form textarea {
+    font-size: 16px; /* prevents iOS auto-zoom on focus */
+  }
+  .jm__file-input {
+    flex-wrap: wrap;
+  }
+  .jm__file-name {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+/* ---- Very small phones (≤360px, iPhone SE / 300px-class) ---- */
+@media (max-width: 360px) {
+  .cr .container {
+    padding: 0 14px;
+  }
+  .cr__title {
+    font-size: clamp(21px, 8vw, 26px);
+  }
+  .cr__job {
+    padding: 15px 13px;
+  }
+  .cr__job:hover {
+    padding-left: 18px;
+  }
+  .cr__job-title {
+    font-size: 14.5px;
+  }
+  .cr__job-dept {
+    font-size: 10px;
+  }
+  .cr__tab {
+    padding: 9px 11px 11px;
+    font-size: 12px;
+  }
+  .jm__panel {
+    padding: 22px 16px 22px;
+  }
+  .jm__title {
+    font-size: 19px;
+  }
+  .jm__cta {
+    font-size: 14px;
+    padding: 12px 16px;
   }
 }

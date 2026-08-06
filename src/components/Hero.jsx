@@ -1,34 +1,142 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Hero.css';
 
-// Local videos from src/video/ — CRA bundles these on import and gives you
-// a working URL back. Rename your 6 files to match these (or edit the paths
-// below to match whatever you name them).
-import fleetVideo from '../video/one.mp4';
-import railVideo from '../video/two.mp4';
-import portVideo from '../video/five.mp4';
-import airVideo from '../video/four.mp4';
-import coldchainVideo from '../video/six.mp4';
-import warehouseVideo from '../video/three.mp4';
-
 gsap.registerPlugin(ScrollTrigger);
 
+/* ================================================================
+   VIDEOS — direct URL links. Swap any `src` for your own hosted
+   video link any time (Cloudinary, S3, your own CDN, etc.) — no
+   other code changes needed.
+   ================================================================ */
 const CLIPS = [
-  { id: 'fleet', tile: 'a', label: 'Fleet / Highway corridor', src: fleetVideo },
-  { id: 'rail', tile: 'b', label: 'Rail / Intermodal yard', src: railVideo },
-  { id: 'port', tile: 'c', label: 'Port / Container ops', src: portVideo },
-  { id: 'air', tile: 'd', label: 'Air / Cargo apron', src: airVideo },
-  { id: 'coldchain', tile: 'e', label: 'Cold chain / Storage', src: coldchainVideo },
-  { id: 'warehouse', tile: 'f', label: 'Warehouse / Distribution', src: warehouseVideo },
+  {
+    id: 'fleet',
+    tile: 'a',
+    label: 'Fleet / Highway corridor',
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830542/five_i98c6j.mp4',
+  },
+  {
+    id: 'rail',
+    tile: 'b',
+    label: 'Rail / Intermodal yard',
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785831396/three_gamlix.mp4',
+  },
+  {
+    id: 'port',
+    tile: 'c',
+    label: 'Port / Container ops',
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830690/port_gupjn3.mp4',
+  },
+  {
+    id: 'air',
+    tile: 'd',
+    label: 'Air / Cargo apron',
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830863/six_z033up.mp4',
+  },
+  {
+    id: 'coldchain',
+    tile: 'e',
+    label: 'Cold chain / Storage',
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830933/two_uqvhgs.mp4',
+  },
+  {
+    id: 'warehouse',
+    tile: 'f',
+    label: 'Warehouse / Distribution',
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830942/one_dpj1dp.mp4',
+  },
 ];
 
 /* ==========================================================================
-   Collage tile — real-time 3D mouse-tilt + a slow idle float (GSAP)
+   Lightbox — opens on double-click, video shown large with a blurred
+   backdrop over the rest of the page.
    ========================================================================== */
 
-const CollageTile = ({ tileClass, badge, src }) => {
+const VideoLightbox = ({ clip, onClose }) => {
+  const overlayRef = useRef(null);
+  const panelRef = useRef(null);
+
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    gsap.set(overlayRef.current, { opacity: 0 });
+    gsap.set(panelRef.current, { opacity: 0, scale: 0.85 });
+    gsap.to(overlayRef.current, { opacity: 1, duration: 0.35, ease: 'power2.out' });
+    gsap.to(panelRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.5,
+      ease: 'back.out(1.5)',
+      delay: 0.05,
+    });
+
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleClose = () => {
+    gsap.to(panelRef.current, { opacity: 0, scale: 0.85, duration: 0.3, ease: 'power2.in' });
+    gsap.to(overlayRef.current, {
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.in',
+      onComplete: onClose,
+    });
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target === overlayRef.current) handleClose();
+  };
+
+  return createPortal(
+    <div
+      className="hero-lb__overlay"
+      ref={overlayRef}
+      onMouseDown={handleOverlayClick}
+      role="presentation"
+    >
+      <div
+        className="hero-lb__panel"
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={clip.label}
+      >
+        <button className="hero-lb__close" onClick={handleClose} aria-label="Close" type="button">
+          ✕
+        </button>
+        <video
+          className="hero-lb__video"
+          src={clip.src}
+          autoPlay
+          loop
+          controls
+          playsInline
+        />
+        <span className="hero-lb__label">{clip.label}</span>
+      </div>
+    </div>,
+    document.body
+  );
+};
+
+/* ==========================================================================
+   Collage tile — 3D mouse-tilt + idle float + double-click to expand
+   ========================================================================== */
+
+const CollageTile = ({ tileClass, badge, src, onExpand }) => {
   const innerRef = useRef(null);
 
   const handleMove = (e) => {
@@ -50,10 +158,18 @@ const CollageTile = ({ tileClass, badge, src }) => {
         ref={innerRef}
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
+        onDoubleClick={onExpand}
+        role="button"
+        tabIndex={0}
+        aria-label={`Expand ${badge}`}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') onExpand();
+        }}
       >
         <video className="hero__tile-media" src={src} autoPlay loop muted playsInline />
         <span className="hero__tile-rec" aria-hidden="true" />
         <span className="hero__tile-badge">{badge}</span>
+        <span className="hero__tile-expand-hint" aria-hidden="true">⤢ Double-click to expand</span>
       </div>
     </div>
   );
@@ -65,8 +181,11 @@ const CollageTile = ({ tileClass, badge, src }) => {
 
 const Hero = () => {
   const heroRef = useRef(null);
+  const [expandedClip, setExpandedClip] = useState(null);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
@@ -80,8 +199,8 @@ const Hero = () => {
           '-=0.2'
         );
 
-      // Gentle idle float, starting once the entrance has roughly settled —
-      // keeps the collage feeling alive without competing with the entrance.
+      if (prefersReducedMotion) return;
+
       gsap.utils.toArray('.hero__tile').forEach((el, i) => {
         gsap.to(el, {
           y: '+=8',
@@ -93,17 +212,19 @@ const Hero = () => {
         });
       });
 
-      // Scroll parallax — each tile drifts at a slightly different rate
-      gsap.utils.toArray('.hero__tile').forEach((el, i) => {
-        gsap.to(el, {
-          yPercent: (i % 2 === 0 ? -10 : 10) - i,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 1241px)', () => {
+        gsap.utils.toArray('.hero__tile').forEach((el, i) => {
+          gsap.to(el, {
+            yPercent: (i % 2 === 0 ? -10 : 10) - i,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          });
         });
       });
     }, heroRef);
@@ -128,7 +249,9 @@ const Hero = () => {
           </h1>
 
           <p className="hero__subtitle">
-            From container OCR and automatic gates to GPS tracking and warehouse counting. From fiber cabling and load balancing to data center setup and 24x7 support. Sunic delivers everything — automation, networking, storage, and maintenance.
+            From container OCR and automatic gates to GPS tracking and warehouse counting. From
+            fiber cabling and load balancing to data center setup and 24x7 support. Sunic
+            delivers everything — automation, networking, storage, and maintenance.
           </p>
 
           <div className="hero__badge">
@@ -137,15 +260,25 @@ const Hero = () => {
             <span className="hero__badge-muted">based on 12,00+ Project</span>
           </div>
 
-          <a href="#contact" className="hero__cta">Track  project</a>
+          <a href="#contact" className="hero__cta">Track project</a>
         </div>
 
         <div className="hero__collage">
           {CLIPS.map((clip) => (
-            <CollageTile tileClass={clip.tile} badge={clip.label} src={clip.src} key={clip.id} />
+            <CollageTile
+              tileClass={clip.tile}
+              badge={clip.label}
+              src={clip.src}
+              key={clip.id}
+              onExpand={() => setExpandedClip(clip)}
+            />
           ))}
         </div>
       </div>
+
+      {expandedClip && (
+        <VideoLightbox clip={expandedClip} onClose={() => setExpandedClip(null)} />
+      )}
     </section>
   );
 };

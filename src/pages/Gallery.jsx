@@ -6,10 +6,14 @@ import './Gallery.css';
 
 /* ================================================================
    MEDIA CONFIG — sab kuch yahin se swap karein.
+   Videos ab direct URL links hain — apni khud ki hosted video URL
+   (Cloudinary, S3, CDN) se kabhi bhi replace kar sakte hain.
    ================================================================ */
-import yardVideo from '../video/yard.mp4';
-import portVideo from '../video/port.mp4';
-import twoVideo from '../video/two.mp4';
+const VID = {
+  yard: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830690/port_gupjn3.mp4',
+  port: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830839/four_sfgebc.mp4',
+  two: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830933/two_uqvhgs.mp4',
+};
 
 const IMG = {
   gate: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1400&q=80',
@@ -106,7 +110,7 @@ Integration with legacy systems remains the slowest part of every deployment, an
     title: 'Automated rail crane cycle',
     caption:
       'A rail-mounted gantry running an unmanned lift-and-place cycle at a live terminal. The system determines the target slot from current yard state; the crane executes the movement without operator input at any point in the cycle. Footage recorded during a standard shift, not a staged demonstration.',
-    src: yardVideo,
+    src: VID.yard,
     date: 'Mar 2026',
   },
   {
@@ -160,7 +164,7 @@ We have had that conversation on every site where we have done it, and it has sa
     title: 'Container and wagon reading',
     caption:
       'Live OCR matching containers to wagons as a rake moves through the yard. Each box is identified, paired to its wagon position, and reconciled against the manifest in the same pass — work that previously meant radio calls and a clipboard.',
-    src: portVideo,
+    src: VID.port,
     date: 'Jan 2026',
   },
   {
@@ -229,7 +233,7 @@ It is also the work we are proudest of, and the reason departments come back to 
     title: 'Slot allocation in motion',
     caption:
       'The system picks the slot from current yard state and the crane executes it. What matters here is not the movement itself but how rarely an operator needs to override the choice.',
-    src: twoVideo,
+    src: VID.two,
     date: 'Nov 2025',
   },
   {

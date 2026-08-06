@@ -1,12 +1,20 @@
 .services {
   padding: 60px 0 60px;
   position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.services .container {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .services__title {
   font-size: clamp(1.9rem, 3.4vw, 2.6rem);
   font-weight: 700;
   margin: 16px 0 18px;
+  word-break: break-word;
 }
 
 .services__sub {
@@ -24,6 +32,7 @@
   gap: 48px;
   min-height: 100vh;
   padding: 60px 0 80px;
+  box-sizing: border-box;
 }
 
 .services__head {
@@ -42,6 +51,7 @@
   position: relative;
   perspective: 1400px;
   max-width: 500px;
+  width: 100%;
 }
 
 /* ---------- Fanned numbered cards ---------- */
@@ -55,6 +65,7 @@
   transform-style: preserve-3d;
   box-shadow: var(--shadow-card);
   position: relative;
+  box-sizing: border-box;
 }
 
 .stack-card + .stack-card {
@@ -85,6 +96,7 @@
 .stack-card__body {
   transform: translateZ(20px);
   padding-top: 6px;
+  min-width: 0;
 }
 
 .stack-card__code {
@@ -97,6 +109,7 @@
   font-weight: 700;
   color: var(--bg-primary);
   margin: 8px 0 8px;
+  word-break: break-word;
 }
 
 .stack-card__desc {
@@ -129,13 +142,21 @@
   display: block;
 }
 
-/* ---------- Responsive ---------- */
+/* ============================================================
+   RESPONSIVE — cascades from tablet down to 300px phones,
+   same breakpoint structure used across the rest of the site.
+   ============================================================ */
 
+/* ---- Tablet and below: unpin, stack heading/cards/video ---- */
 @media (max-width: 899px) {
   .services__pin {
     min-height: auto;
     padding: 0 0 40px;
     gap: 32px;
+  }
+
+  .services__head {
+    margin-top: 60px;
   }
 
   .services__row {
@@ -153,6 +174,22 @@
   }
 }
 
+/* ---- Large phones / small tablets (≤ 780px) ---- */
+@media (max-width: 780px) {
+  .services {
+    padding: 48px 0 48px;
+  }
+
+  .services__head {
+    margin-top: 44px;
+  }
+
+  .services__sub {
+    font-size: 0.98rem;
+  }
+}
+
+/* ---- Cards flatten out (≤ 560px), same threshold as before ---- */
 @media (max-width: 560px) {
   .stack-card {
     padding: 24px 20px;
@@ -169,5 +206,116 @@
 
   .stack-card__num {
     font-size: 2.6rem;
+  }
+}
+
+/* ---- Standard phones incl. iPhone X/11/12/13 (~375–428px) ---- */
+@media (max-width: 480px) {
+  .services {
+    padding: 40px 0 40px;
+  }
+
+  .services__pin {
+    gap: 24px;
+    padding: 0 0 32px;
+  }
+
+  .services__head {
+    margin-top: 36px;
+  }
+
+  .services__title {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+    margin: 12px 0 14px;
+  }
+
+  .services__sub {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .services__row {
+    gap: 28px;
+  }
+
+  .stack-card {
+    padding: 20px 18px;
+    gap: 14px;
+    border-radius: var(--radius-md);
+  }
+
+  .stack-card + .stack-card {
+    margin-top: -14px;
+  }
+
+  .stack-card__num {
+    font-size: 2.1rem;
+  }
+
+  .stack-card__title {
+    font-size: 1.18rem;
+    margin: 6px 0 6px;
+  }
+
+  .stack-card__desc {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .media-panel {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ---- Very small phones (≤360px, iPhone SE / 300px-class) ---- */
+@media (max-width: 360px) {
+  .services__title {
+    font-size: clamp(1.4rem, 7.5vw, 1.75rem);
+  }
+
+  .services__sub {
+    font-size: 0.86rem;
+  }
+
+  .stack-card {
+    padding: 16px 15px;
+    gap: 10px;
+  }
+
+  .stack-card + .stack-card {
+    margin-top: -10px;
+  }
+
+  .stack-card__num {
+    font-size: 1.8rem;
+  }
+
+  .stack-card__title {
+    font-size: 1.05rem;
+  }
+
+  .stack-card__desc {
+    font-size: 0.8rem;
+  }
+}
+
+/* ---- Extra-narrow safety net (≤300px) ---- */
+@media (max-width: 300px) {
+  .stack-card {
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 13px;
+  }
+
+  .stack-card__num {
+    font-size: 1.5rem;
+  }
+
+  .stack-card__desc {
+    display: none; /* keeps the card readable — title + code still convey the product */
+  }
+
+  .media-panel {
+    aspect-ratio: 1 / 1;
   }
 }

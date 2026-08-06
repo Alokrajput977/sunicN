@@ -3,31 +3,32 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './VideoShowcase.css';
 
-import fleetVideo from '../video/two.mp4';
-import portVideo from '../video/port.mp4';
-import warehouseVideo from '../video/four.mp4';
-
 gsap.registerPlugin(ScrollTrigger);
 
+/* ================================================================
+   VIDEOS — direct URL links. Swap any `src` for your own hosted
+   video link any time (Cloudinary, S3, your own CDN, etc.) — no
+   other code changes needed.
+   ================================================================ */
 const CARDS = [
   {
     id: 'a',
     accent: 'teal',
-    src: fleetVideo,
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830933/two_uqvhgs.mp4',
     title: 'Rail crane, fully automated',
     body: 'Gantry and rail-mounted cranes operate on automated cycles — lifting, moving and positioning containers without manual coordination at every step.',
   },
   {
     id: 'b',
     accent: 'amber',
-    src: portVideo,
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830690/port_gupjn3.mp4',
     title: 'Container and wagon reading',
     body: 'OCR captures container numbers and wagon IDs the moment they enter the yard — matched, verified and logged automatically, no clipboards involved.',
   },
   {
     id: 'c',
     accent: 'violet',
-    src: warehouseVideo,
+    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830839/four_sfgebc.mp4',
     title: 'Precise slot placement',
     body: 'Every container is lifted and placed at its assigned yard location automatically — the system decides the slot, the crane executes it.',
   },
@@ -103,8 +104,9 @@ const VideoShowcase = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const ctx = gsap.context(() => {
-      // Heading — simple fade/rise, plays on the way down, reverses on the way up
       gsap.from('.why__head > *', {
         y: 24,
         opacity: 0,
@@ -118,25 +120,51 @@ const VideoShowcase = () => {
         },
       });
 
-      // Cards — motion is scrubbed directly to scroll position (not a fixed-
-      // duration triggered tween), so it tracks the scrollbar 1:1 with a
-      // touch of smoothing lag instead of feeling like it's "catching up".
-      gsap.fromTo(
-        '.why__card',
-        { x: 120, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          stagger: 0.12,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.why__grid',
-            start: 'top 92%',
-            end: 'top 28%',
-            scrub: 0.9,
-          },
-        }
-      );
+      if (prefersReducedMotion) {
+        gsap.set('.why__card', { x: 0, opacity: 1 });
+        return;
+      }
+
+      // Desktop: scrubbed cascade tied to scroll position. Mobile cards are
+      // stacked in normal flow (see CSS), so gate the scrub animation to
+      // the layout it was actually designed for.
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 981px)', () => {
+        gsap.fromTo(
+          '.why__card',
+          { x: 120, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            stagger: 0.12,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.why__grid',
+              start: 'top 92%',
+              end: 'top 28%',
+              scrub: 0.9,
+            },
+          }
+        );
+      });
+
+      mm.add('(max-width: 980px)', () => {
+        gsap.fromTo(
+          '.why__card',
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.65,
+            stagger: 0.12,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: '.why__grid',
+              start: 'top 88%',
+            },
+          }
+        );
+      });
     }, sectionRef);
 
     return () => ctx.revert();

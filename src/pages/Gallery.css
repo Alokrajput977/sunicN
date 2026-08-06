@@ -21,6 +21,7 @@
   font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
   padding: 150px 0 160px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .gl::before {
@@ -40,6 +41,8 @@
   max-width: 1220px;
   margin: 0 auto;
   padding: 0 28px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ---------- Header ---------- */
@@ -69,6 +72,7 @@
   letter-spacing: -0.01em;
   line-height: 1.15;
   margin: 0 0 20px;
+  word-break: break-word;
 }
 
 .gl__subtitle {
@@ -94,6 +98,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 16px;
+  max-width: 100%;
 }
 
 .gl__pill {
@@ -153,6 +158,7 @@
   padding: 0;
   will-change: transform, opacity;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  min-width: 0;
 }
 
 .gl__card--wide {
@@ -282,6 +288,7 @@
   gap: 8px;
   padding: 22px 24px 20px;
   flex: 0 0 auto;
+  min-width: 0;
 }
 
 .gl__card--blog .gl__card-info {
@@ -305,6 +312,7 @@
   font-weight: 700;
   line-height: 1.32;
   letter-spacing: -0.01em;
+  word-break: break-word;
 }
 
 .gl__card--blog .gl__card-title {
@@ -345,6 +353,7 @@
   color: var(--gl-highlight-1);
   transform: translateX(0);
   transition: transform 0.22s ease;
+  white-space: nowrap;
 }
 
 .gl__card:hover .gl__card-cue {
@@ -368,6 +377,7 @@
   align-items: center;
   justify-content: center;
   padding: 4vh 20px;
+  box-sizing: border-box;
 }
 
 .gx__panel {
@@ -384,6 +394,7 @@
   box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  box-sizing: border-box;
 }
 
 .gx__panel--read {
@@ -451,6 +462,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 30px 38px 38px;
+  box-sizing: border-box;
 }
 
 .gx__body::-webkit-scrollbar {
@@ -485,6 +497,7 @@
   letter-spacing: -0.015em;
   line-height: 1.24;
   margin: 10px 0 16px;
+  word-break: break-word;
 }
 
 .gx__meta {
@@ -502,6 +515,13 @@
   border: 1px solid var(--gl-border);
   padding: 5px 12px;
   border-radius: 999px;
+}
+
+.gx__caption {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--gl-muted);
+  margin: 0;
 }
 
 .gx__prose {
@@ -530,82 +550,6 @@
   margin: 30px 0 -4px;
   padding-left: 14px;
   border-left: 3px solid var(--gl-gold);
-}
-
-/* THIS is what makes long blog posts scroll */
-.gx__body {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 30px 36px 36px;
-}
-
-.gx__body::-webkit-scrollbar {
-  width: 8px;
-}
-
-.gx__body::-webkit-scrollbar-thumb {
-  background: var(--gl-border);
-  border-radius: 999px;
-}
-
-.gx__tag {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gl-gold);
-}
-
-.gx__title {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.22;
-  margin: 10px 0 16px;
-}
-
-.gx__meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 22px;
-}
-
-.gx__meta span {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11.5px;
-  color: var(--gl-muted);
-  background: var(--gl-bg);
-  border: 1px solid var(--gl-border);
-  padding: 5px 12px;
-  border-radius: 999px;
-}
-
-.gx__caption {
-  font-size: 15.5px;
-  line-height: 1.75;
-  color: var(--gl-muted);
-  margin: 0;
-}
-
-.gx__prose {
-  border-top: 1px solid var(--gl-border);
-  padding-top: 6px;
-}
-
-.gx__prose p {
-  font-size: 15.5px;
-  line-height: 1.85;
-  color: var(--gl-muted);
-  margin: 18px 0 0;
-}
-
-.gx__prose p:first-child {
-  color: var(--gl-ink);
-  font-weight: 500;
 }
 
 /* ============================================================
@@ -667,7 +611,12 @@
   }
 }
 
-/* ---------- Responsive ---------- */
+/* ============================================================
+   RESPONSIVE — cascades from tablet down to 300px phones,
+   same breakpoint structure used across the rest of the site.
+   ============================================================ */
+
+/* ---- Tablet (≤ 1020px) ---- */
 @media (max-width: 1020px) {
   .gl__grid {
     grid-template-columns: repeat(2, 1fr);
@@ -679,6 +628,7 @@
   }
 }
 
+/* ---- Large phones / small tablets (≤ 660px) ---- */
 @media (max-width: 660px) {
   .gl {
     padding: 100px 0 110px;
@@ -708,9 +658,13 @@
     flex-wrap: nowrap;
     scrollbar-width: none;
     max-width: 100%;
+    justify-content: flex-start;
   }
   .gl__tabs::-webkit-scrollbar {
     display: none;
+  }
+  .gl__tabs-wrap {
+    justify-content: flex-start;
   }
   .gx__overlay {
     padding: 2vh 12px;
@@ -728,5 +682,190 @@
   .gx__media img,
   .gx__media video {
     max-height: 44vh;
+  }
+}
+
+/* ---- Standard phones incl. iPhone X/11/12/13 (~375–428px) ---- */
+@media (max-width: 480px) {
+  .gl {
+    padding: 88px 0 88px;
+  }
+
+  .gl .container {
+    padding: 0 16px;
+  }
+
+  .gl__head {
+    margin-bottom: 32px;
+  }
+
+  .gl__eyebrow {
+    font-size: 10.5px;
+    padding: 5px 12px;
+    margin-bottom: 18px;
+  }
+
+  .gl__title {
+    font-size: clamp(24px, 7.5vw, 30px);
+    margin-bottom: 14px;
+  }
+
+  .gl__subtitle {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .gl__tabs-wrap {
+    margin-bottom: 32px;
+  }
+
+  .gl__tab {
+    padding: 10px 14px 12px;
+    font-size: 12.5px;
+  }
+
+  .gl__grid {
+    grid-auto-rows: 260px;
+    gap: 14px;
+  }
+
+  .gl__card-info {
+    padding: 16px 16px 14px;
+    gap: 6px;
+  }
+
+  .gl__card--blog .gl__card-info {
+    padding: 22px 18px 18px;
+    gap: 8px;
+  }
+
+  .gl__card-title {
+    font-size: 14.5px;
+  }
+
+  .gl__card--blog .gl__card-title {
+    font-size: 17px;
+  }
+
+  .gl__card-caption {
+    font-size: 12.5px;
+  }
+
+  .gl__card-play {
+    width: 30px;
+    height: 30px;
+    top: 12px;
+    right: 12px;
+  }
+
+  .gx__overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .gx__panel {
+    border-radius: 16px 16px 0 0;
+    max-height: 94vh;
+  }
+  .gx__panel--read {
+    max-width: 100%;
+  }
+  .gx__close {
+    width: 32px;
+    height: 32px;
+    top: 12px;
+    right: 12px;
+  }
+  .gx__body {
+    padding: 22px 18px 24px;
+  }
+  .gx__title {
+    font-size: 19px;
+    margin: 8px 0 12px;
+  }
+  .gx__meta {
+    margin-bottom: 18px;
+  }
+  .gx__meta span {
+    font-size: 10.5px;
+    padding: 4px 10px;
+  }
+  .gx__prose p {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+  .gx__media img,
+  .gx__media video {
+    max-height: 36vh;
+  }
+  .gx__media--banner,
+  .gx__media--banner img {
+    max-height: 160px;
+  }
+}
+
+/* ---- Very small phones (≤360px, iPhone SE / 300px-class) ---- */
+@media (max-width: 360px) {
+  .gl {
+    padding: 76px 0 76px;
+  }
+
+  .gl .container {
+    padding: 0 14px;
+  }
+
+  .gl__title {
+    font-size: clamp(21px, 8vw, 26px);
+  }
+
+  .gl__subtitle {
+    font-size: 13.5px;
+  }
+
+  .gl__grid {
+    grid-auto-rows: 230px;
+    gap: 12px;
+  }
+
+  .gl__card-info {
+    padding: 14px 14px 12px;
+  }
+
+  .gl__card-title {
+    font-size: 13.5px;
+  }
+
+  .gl__card-date {
+    font-size: 10px;
+  }
+
+  .gl__card-cue {
+    font-size: 11.5px;
+  }
+
+  .gx__title {
+    font-size: 17px;
+  }
+
+  .gx__prose p {
+    font-size: 13.5px;
+  }
+}
+
+/* ---- Extra-narrow safety net (≤300px) ---- */
+@media (max-width: 300px) {
+  .gl .container {
+    padding: 0 12px;
+  }
+  .gl__grid {
+    grid-auto-rows: 210px;
+  }
+  .gl__card-info {
+    padding: 12px 12px 10px;
+  }
+  .gl__card--blog .gl__card-info {
+    padding: 18px 14px 14px;
+  }
+  .gx__body {
+    padding: 18px 14px 20px;
   }
 }
