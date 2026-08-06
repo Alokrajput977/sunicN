@@ -65,6 +65,33 @@
   white-space: nowrap;
 }
 
+.navbar__link {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  transition: color 0.25s ease;
+  position: relative;
+  white-space: nowrap;
+  padding-bottom: 6px; /* underline ke liye thodi space */
+}
+
+.navbar__link:not(.navbar__link--cta)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--accent-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.navbar__link:not(.navbar__link--cta):hover::after,
+.navbar__link:not(.navbar__link--cta).is-active::after {
+  transform: scaleX(1);
+}
+
 .navbar__link:hover {
   color: var(--text-primary);
 }

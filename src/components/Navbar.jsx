@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
 
@@ -51,13 +51,16 @@ const Navbar = () => {
 
         <nav className="navbar__links">
           {LINKS.map((link, i) => (
-            <Link
+            <NavLink
               key={link.label}
               to={link.to}
-              className={`navbar__link ${i === LINKS.length - 1 ? 'navbar__link--cta' : ''}`}
+              className={({ isActive }) =>
+                `navbar__link ${i === LINKS.length - 1 ? 'navbar__link--cta' : ''} ${isActive ? 'is-active' : ''
+                }`
+              }
             >
               {link.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 
