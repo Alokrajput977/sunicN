@@ -31,7 +31,6 @@ const Home = () => {
       <Hero />
       <VideoShowcase />
       <Services />
-      <About />
       <Gallery />
       <Stats />
       <Testimonials />
