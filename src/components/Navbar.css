@@ -34,6 +34,7 @@
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
+  transition: opacity 0.3s ease, visibility 0s;
 }
 
 .navbar__logo-img {
@@ -55,14 +56,6 @@
   display: flex;
   align-items: center;
   gap: 30px;
-}
-
-.navbar__link {
-  font-size: 0.92rem;
-  color: var(--text-secondary);
-  transition: color 0.25s ease;
-  position: relative;
-  white-space: nowrap;
 }
 
 .navbar__link {
@@ -191,6 +184,7 @@
   .navbar__burger {
     display: flex;
     z-index: 101;
+    transition: opacity 0.25s ease, visibility 0s;
   }
 
   /* Old inline <nav> hides on mobile — the sidebar takes over */
@@ -208,6 +202,24 @@
   }
   .navbar--scrolled {
     box-shadow: var(--shadow-card);
+  }
+
+  /* Sidebar open hone pe main navbar wala bara logo hide,
+     kyunki sidebar poori width cover nahi karta aur dono
+     logo ek saath dikh jaate the. */
+  .navbar--menu-open .navbar__logo {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Sidebar open hone pe hamburger/cross icon bhi hide —
+     sirf sidebar ka apna close (X) button dikhna chahiye,
+     warna 2 cross ek saath dikhte hain. */
+  .navbar--menu-open .navbar__burger {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .navbar__sidebar {
