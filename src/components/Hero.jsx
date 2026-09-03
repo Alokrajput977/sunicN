@@ -16,37 +16,37 @@ const CLIPS = [
     id: 'fleet',
     tile: 'a',
     label: 'Fleet / Highway corridor',
-    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830542/five_i98c6j.mp4',
+    src: 'https://res.cloudinary.com/kajpumjn/video/upload/v1785916712/istockphoto-500124416-640_adpp_is_kuoi8l.mp4',
   },
   {
     id: 'rail',
     tile: 'b',
     label: 'Rail / Intermodal yard',
-    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785831396/three_gamlix.mp4',
+    src: 'https://res.cloudinary.com/kajpumjn/video/upload/v1785918084/istockphoto-1279548706-640_adpp_is_online-video-cutter.com_chwlhb.mp4',
   },
   {
     id: 'port',
     tile: 'c',
     label: 'Port / Container ops',
-    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830690/port_gupjn3.mp4',
+    src: 'https://res.cloudinary.com/kajpumjn/video/upload/v1785830397/one_xlsfem.mp4',
   },
   {
     id: 'air',
     tile: 'd',
     label: 'Air / Cargo apron',
-    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830863/six_z033up.mp4',
+    src: 'https://res.cloudinary.com/kajpumjn/video/upload/v1785830249/three_scjled.mp4',
   },
   {
     id: 'coldchain',
     tile: 'e',
     label: 'Cold chain / Storage',
-    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830933/two_uqvhgs.mp4',
+    src: 'https://res.cloudinary.com/kajpumjn/video/upload/v1785830520/port_m8nalk.mp4',
   },
   {
     id: 'warehouse',
     tile: 'f',
     label: 'Warehouse / Distribution',
-    src: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830942/one_dpj1dp.mp4',
+    src: 'https://res.cloudinary.com/kajpumjn/video/upload/v1788177708/208160_wxf64v.mp4',
   },
 ];
 

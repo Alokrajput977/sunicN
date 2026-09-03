@@ -10,17 +10,17 @@ import './Gallery.css';
    (Cloudinary, S3, CDN) se kabhi bhi replace kar sakte hain.
    ================================================================ */
 const VID = {
-  yard: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830690/port_gupjn3.mp4',
-  port: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830839/four_sfgebc.mp4',
-  two: 'https://res.cloudinary.com/dknf7q4qv/video/upload/v1785830933/two_uqvhgs.mp4',
+  yard: 'https://res.cloudinary.com/kajpumjn/video/upload/v1785830397/one_xlsfem.mp4',
+  port: 'https://res.cloudinary.com/kajpumjn/video/upload/v1788419466/VIDEO-2026-09-03-12-36-53_afpmjh.mp4',
+  two: 'https://res.cloudinary.com/kajpumjn/video/upload/v1785829918/four_edzfkm.mp4',
 };
 
 const IMG = {
-  gate: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1400&q=80',
-  warehouse: 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=1400&q=80',
-  rail: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=1400&q=80',
+  gate: 'https://res.cloudinary.com/kajpumjn/image/upload/v1788420295/0b6f4dcd-9307-4caa-9bdf-66d8b6a1e82b_i8ibwn.png',
+  warehouse: 'https://res.cloudinary.com/kajpumjn/image/upload/v1788179938/WhatsApp_Image_2026-08-31_at_17.10.47_hqwxz6.jpg',
+  rail: 'https://res.cloudinary.com/kajpumjn/image/upload/v1788180246/WhatsApp_Image_2026-08-31_at_17.10.49_sbur0d.jpg',
   team: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&q=80',
-  meeting: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1400&q=80',
+  meeting: 'https://res.cloudinary.com/kajpumjn/image/upload/v1788180478/images_2_gdybfr.jpg',
   control: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1400&q=80',
 };
 

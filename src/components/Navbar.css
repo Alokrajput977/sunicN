@@ -1,3 +1,10 @@
+/* ---------- Body scroll lock (class-based, replaces inline style toggling) ---------- */
+html.no-scroll,
+body.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+
 .navbar {
   position: fixed;
   top: 0;
@@ -29,27 +36,42 @@
   z-index: 102;
 }
 
+/* While the mobile sidebar is open, the header's own inner row must not
+   intercept clicks/taps even where its (now-invisible) children used to
+   sit â€” this is what was blocking the sidebar's close (X) button. */
+.navbar--menu-open .navbar__inner {
+  pointer-events: none;
+}
+
+/* ============================================================
+   LOGO STYLES â€” Smaller sizing with proper constraints
+   ============================================================ */
 .navbar__logo {
   display: flex;
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
+  padding: 4px 0;
+  overflow: visible;
   transition: opacity 0.3s ease, visibility 0s;
 }
 
 .navbar__logo-img {
-  height: 168px;
+  height: 80px; /* Reduced from 168px */
   width: auto;
+  max-width: 100%;
   display: block;
-  margin: -27px 0;
+  margin: -10px 0; /* Adjusted negative margin */
   transition: height 0.5s var(--ease-out), margin 0.5s var(--ease-out);
   position: relative;
   z-index: 1;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .navbar--scrolled .navbar__logo-img {
-  height: 100px;
-  margin: -33px 0;
+  height: 56px; /* Reduced from 100px */
+  margin: -8px 0;
 }
 
 .navbar__links {
@@ -64,7 +86,7 @@
   transition: color 0.25s ease;
   position: relative;
   white-space: nowrap;
-  padding-bottom: 6px; /* underline ke liye thodi space */
+  padding-bottom: 6px;
 }
 
 .navbar__link:not(.navbar__link--cta)::after {
@@ -173,7 +195,7 @@
 }
 
 /* ============================================================
-   SIDEBAR — redesigned: header with logo + close button,
+   SIDEBAR â€” header with logo + close button,
    numbered staggered links, footer with contact details.
    ============================================================ */
 .navbar__sidebar {
@@ -187,14 +209,10 @@
     transition: opacity 0.25s ease, visibility 0s;
   }
 
-  /* Old inline <nav> hides on mobile — the sidebar takes over */
   .navbar__links {
     display: none;
   }
 
-  /* Navbar always has a solid, readable surface on mobile —
-     no more transparent header at scrollY 0 that content shows
-     through / sidebar popping in only after the user scrolls. */
   .navbar {
     background: var(--overlay-scrim);
     backdrop-filter: blur(16px);
@@ -204,18 +222,12 @@
     box-shadow: var(--shadow-card);
   }
 
-  /* Sidebar open hone pe main navbar wala bara logo hide,
-     kyunki sidebar poori width cover nahi karta aur dono
-     logo ek saath dikh jaate the. */
   .navbar--menu-open .navbar__logo {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
   }
 
-  /* Sidebar open hone pe hamburger/cross icon bhi hide —
-     sirf sidebar ka apna close (X) button dikhna chahiye,
-     warna 2 cross ek saath dikhte hain. */
   .navbar--menu-open .navbar__burger {
     opacity: 0;
     visibility: hidden;
@@ -228,7 +240,7 @@
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 99;
+    z-index: 103;
     height: 100vh;
     height: 100dvh;
     width: min(360px, 86vw);
@@ -239,13 +251,13 @@
     transition: transform 0.5s var(--ease-out);
     box-sizing: border-box;
     overflow-y: auto;
+    pointer-events: auto;
   }
 
   .navbar__sidebar.is-open {
     transform: translateX(0);
   }
 
-  /* --- Header row: logo + close --- */
   .navbar__sidebar-head {
     display: flex;
     align-items: center;
@@ -258,13 +270,19 @@
   .navbar__sidebar-logo {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
   }
 
+  /* ============================================================
+     SIDEBAR LOGO â€” Smaller sizing
+     ============================================================ */
   .navbar__sidebar-logo img {
-    height: 56px;
+    height: 40px; /* Reduced from 56px */
     width: auto;
-    margin: -10px 0;
+    max-width: 100%;
     display: block;
+    object-fit: contain;
+    flex-shrink: 0;
   }
 
   .navbar__sidebar-close {
@@ -301,7 +319,6 @@
     transform: translate(-50%, -50%) rotate(-45deg);
   }
 
-  /* --- Links: numbered, staggered slide-in --- */
   .navbar__sidebar-links {
     display: flex;
     flex-direction: column;
@@ -334,6 +351,14 @@
     background: var(--bg-card);
   }
 
+  .navbar__sidebar-link.is-active:not(.navbar__sidebar-link--cta) {
+    background: var(--bg-card);
+  }
+
+  .navbar__sidebar-link.is-active:not(.navbar__sidebar-link--cta) .navbar__sidebar-link-num {
+    color: var(--text-primary);
+  }
+
   .navbar__sidebar-link-num {
     font-family: var(--font-mono, monospace);
     font-size: 0.7rem;
@@ -361,7 +386,6 @@
     transform: translateX(0);
   }
 
-  /* Last link (Contact) styled as a highlighted CTA row */
   .navbar__sidebar-link--cta {
     margin-top: 10px;
     background: var(--accent-gradient);
@@ -379,7 +403,6 @@
     background: var(--accent-gradient);
   }
 
-  /* --- Footer: quick contact --- */
   .navbar__sidebar-foot {
     display: flex;
     flex-direction: column;
@@ -412,9 +435,10 @@
 }
 
 /* ============================================================
-   RESPONSIVE — logo scaling across breakpoints (unchanged logic)
+   RESPONSIVE â€” Smaller logo scaling across breakpoints
    ============================================================ */
 
+/* Tablet: 780px */
 @media (max-width: 780px) {
   .navbar {
     padding: 16px 0;
@@ -424,15 +448,16 @@
   }
 
   .navbar__logo-img {
-    height: 120px;
-    margin: -19px 0;
+    height: 64px; /* Reduced from 120px */
+    margin: -8px 0;
   }
   .navbar--scrolled .navbar__logo-img {
-    height: 80px;
-    margin: -13px 0;
+    height: 48px; /* Reduced from 80px */
+    margin: -6px 0;
   }
 }
 
+/* Mobile large: 480px */
 @media (max-width: 480px) {
   .navbar {
     padding: 14px 0;
@@ -446,12 +471,12 @@
   }
 
   .navbar__logo-img {
-    height: 92px;
-    margin: -15px 0;
+    height: 50px; /* Reduced from 92px */
+    margin: -6px 0;
   }
   .navbar--scrolled .navbar__logo-img {
-    height: 64px;
-    margin: -10.5px 0;
+    height: 38px; /* Reduced from 64px */
+    margin: -4px 0;
   }
 
   .navbar__actions {
@@ -478,7 +503,7 @@
     padding: 16px 20px;
   }
   .navbar__sidebar-logo img {
-    height: 46px;
+    height: 34px; /* Reduced from 46px */
   }
   .navbar__sidebar-links {
     padding: 8px 8px;
@@ -493,18 +518,19 @@
   }
 }
 
+/* Mobile small: 360px */
 @media (max-width: 360px) {
   .navbar__inner {
     gap: 8px;
   }
 
   .navbar__logo-img {
-    height: 76px;
-    margin: -12.5px 0;
+    height: 42px; /* Reduced from 76px */
+    margin: -5px 0;
   }
   .navbar--scrolled .navbar__logo-img {
-    height: 54px;
-    margin: -9px 0;
+    height: 32px; /* Reduced from 54px */
+    margin: -3px 0;
   }
 
   .navbar__actions {
@@ -535,18 +561,19 @@
   }
 }
 
+/* Extra small: 300px */
 @media (max-width: 300px) {
   .navbar .container {
     padding-left: 12px;
     padding-right: 12px;
   }
   .navbar__logo-img {
-    height: 64px;
-    margin: -10.5px 0;
+    height: 36px; /* Reduced from 64px */
+    margin: -4px 0;
   }
   .navbar--scrolled .navbar__logo-img {
-    height: 46px;
-    margin: -7.5px 0;
+    height: 28px; /* Reduced from 46px */
+    margin: -3px 0;
   }
   .navbar__sidebar {
     width: 100vw;

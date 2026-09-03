@@ -230,7 +230,7 @@ const About = () => {
             {/* Drop your own image in here — replace the src below. */}
             <img
               className="ab__story-image"
-              src="https://cdn.pixabay.com/photo/2017/08/01/21/57/container-vans-2568204_1280.jpg"
+              src="https://res.cloudinary.com/kajpumjn/image/upload/v1788180246/WhatsApp_Image_2026-08-31_at_17.10.49_sbur0d.jpg"
               alt="Sunic Technologies"
             />
           </div>
