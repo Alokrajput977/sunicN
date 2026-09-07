@@ -3,8 +3,10 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
 
+// NOTE: paths are lowercase. React Router matches case-sensitively, so
+// '/About' would never mark the About page as active.
 const LINKS = [
-  { label: 'About', to: '/About' },
+  { label: 'About', to: '/about' },
   { label: 'Clients', to: '/clients' },
   { label: 'Gallery', to: '/gallery' },
   { label: 'Careers', to: '/careers' },
@@ -35,7 +37,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // ---- Lock page scroll while the mobile sidebar is open (class-based, no inline styles) ----
+  // ---- Lock page scroll while the mobile sidebar is open ----
   useEffect(() => {
     document.body.classList.toggle('no-scroll', menuOpen);
     return () => {
@@ -68,19 +70,18 @@ const Navbar = () => {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [menuOpen, closeMenu]);
 
-  // ---- Focus management: move focus into the sidebar on open, back to the burger on close ----
+  // ---- Focus management: into the sidebar on open, back to the burger on close ----
   useEffect(() => {
     if (menuOpen) {
       closeBtnRef.current?.focus();
     } else {
       burgerRef.current?.focus();
     }
-  }, [menuOpen, burgerRef, closeBtnRef]);
+  }, [menuOpen]);
 
-  // ---- Handle logo click - scroll to top ----
+  // ---- Logo click - scroll to top when already home ----
   const handleLogoClick = (e) => {
     closeMenu();
-    // If we're already on the home page, scroll to top
     if (location.pathname === '/') {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -88,12 +89,14 @@ const Navbar = () => {
   };
 
   return (
-    <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''} ${menuOpen ? 'navbar--menu-open' : ''}`}>
+    <header
+      className={`navbar ${scrolled ? 'navbar--scrolled' : ''} ${menuOpen ? 'navbar--menu-open' : ''}`}
+    >
       <div className="container navbar__inner">
-        <Link 
-          to="/" 
-          className="navbar__logo" 
-          aria-label="Sunic Logistics home" 
+        <Link
+          to="/"
+          className="navbar__logo"
+          aria-label="Sunic Logistics home"
           onClick={handleLogoClick}
         >
           <img src="/logo.png" alt="Sunic Logistics" className="navbar__logo-img" />
@@ -105,7 +108,8 @@ const Navbar = () => {
               key={link.label}
               to={link.to}
               className={({ isActive }) =>
-                `navbar__link ${i === LINKS.length - 1 ? 'navbar__link--cta' : ''} ${isActive ? 'is-active' : ''
+                `navbar__link ${i === LINKS.length - 1 ? 'navbar__link--cta' : ''} ${
+                  isActive ? 'is-active' : ''
                 }`
               }
             >
@@ -117,7 +121,7 @@ const Navbar = () => {
         <div className="navbar__actions">
           <button
             type="button"
-            className="navbar__theme-toggle"
+            className="navbar__theme-toggle navbar__icon-btn"
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
@@ -129,15 +133,17 @@ const Navbar = () => {
           <button
             ref={burgerRef}
             type="button"
-            className={`navbar__burger ${menuOpen ? 'is-open' : ''}`}
+            className={`navbar__burger navbar__icon-btn ${menuOpen ? 'is-open' : ''}`}
             onClick={() => setMenuOpen((o) => !o)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
             aria-controls={SIDEBAR_ID}
           >
-            <span />
-            <span />
-            <span />
+            <span className="navbar__burger-lines" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
           </button>
         </div>
       </div>
@@ -154,17 +160,13 @@ const Navbar = () => {
         aria-label="Mobile navigation"
       >
         <div className="navbar__sidebar-head">
-          <Link 
-            to="/" 
-            className="navbar__sidebar-logo" 
-            onClick={handleLogoClick}
-          >
+          <Link to="/" className="navbar__sidebar-logo" onClick={handleLogoClick}>
             <img src="/logo.png" alt="Sunic Logistics" />
           </Link>
           <button
             ref={closeBtnRef}
             type="button"
-            className="navbar__sidebar-close"
+            className="navbar__sidebar-close navbar__icon-btn"
             onClick={closeMenu}
             aria-label="Close menu"
             tabIndex={menuOpen ? 0 : -1}
@@ -179,9 +181,10 @@ const Navbar = () => {
             <NavLink
               key={link.label}
               to={link.to}
+              // The accent now follows the current page, not the last item
+              // in the list. No index-based CTA class here.
               className={({ isActive }) =>
-                `navbar__sidebar-link ${i === LINKS.length - 1 ? 'navbar__sidebar-link--cta' : ''} ${isActive ? 'is-active' : ''
-                }`
+                `navbar__sidebar-link ${isActive ? 'is-active' : ''}`
               }
               style={{ transitionDelay: menuOpen ? `${0.06 + i * 0.05}s` : '0s' }}
               onClick={closeMenu}
@@ -189,7 +192,9 @@ const Navbar = () => {
             >
               <span className="navbar__sidebar-link-num">{String(i + 1).padStart(2, '0')}</span>
               <span className="navbar__sidebar-link-label">{link.label}</span>
-              <span className="navbar__sidebar-link-arrow" aria-hidden="true">→</span>
+              <span className="navbar__sidebar-link-arrow" aria-hidden="true">
+                →
+              </span>
             </NavLink>
           ))}
         </nav>

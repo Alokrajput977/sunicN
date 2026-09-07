@@ -1,4 +1,23 @@
-/* ---------- Body scroll lock (class-based, replaces inline style toggling) ---------- */
+/* ---------- Body scroll lock ---------- */
+
+/* Fixed navbar ki approx height — sections isse apna top offset lete hain */
+:root {
+  --nav-h: 104px;
+}
+
+@media (max-width: 780px) {
+  :root { --nav-h: 88px; }
+}
+@media (max-width: 480px) {
+  :root { --nav-h: 74px; }
+}
+@media (max-width: 360px) {
+  :root { --nav-h: 68px; }
+}
+@media (max-width: 300px) {
+  :root { --nav-h: 62px; }
+}
+
 html.no-scroll,
 body.no-scroll {
   overflow: hidden;
@@ -37,14 +56,13 @@ body.no-scroll {
 }
 
 /* While the mobile sidebar is open, the header's own inner row must not
-   intercept clicks/taps even where its (now-invisible) children used to
-   sit â€” this is what was blocking the sidebar's close (X) button. */
+   intercept taps where its (now-invisible) children used to sit. */
 .navbar--menu-open .navbar__inner {
   pointer-events: none;
 }
 
 /* ============================================================
-   LOGO STYLES â€” Smaller sizing with proper constraints
+   LOGO
    ============================================================ */
 .navbar__logo {
   display: flex;
@@ -57,11 +75,11 @@ body.no-scroll {
 }
 
 .navbar__logo-img {
-  height: 80px; /* Reduced from 168px */
+  height: 80px;
   width: auto;
   max-width: 100%;
   display: block;
-  margin: -10px 0; /* Adjusted negative margin */
+  margin: -10px 0;
   transition: height 0.5s var(--ease-out), margin 0.5s var(--ease-out);
   position: relative;
   z-index: 1;
@@ -70,10 +88,13 @@ body.no-scroll {
 }
 
 .navbar--scrolled .navbar__logo-img {
-  height: 56px; /* Reduced from 100px */
+  height: 56px;
   margin: -8px 0;
 }
 
+/* ============================================================
+   DESKTOP LINKS
+   ============================================================ */
 .navbar__links {
   display: flex;
   align-items: center;
@@ -107,7 +128,8 @@ body.no-scroll {
   transform: scaleX(1);
 }
 
-.navbar__link:hover {
+.navbar__link:hover,
+.navbar__link.is-active:not(.navbar__link--cta) {
   color: var(--text-primary);
 }
 
@@ -124,23 +146,35 @@ body.no-scroll {
   filter: brightness(1.08);
 }
 
+/* ============================================================
+   ICON BUTTONS — theme toggle, burger and sidebar close all
+   share one size so the header row stays balanced.
+   ============================================================ */
 .navbar__actions {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex-shrink: 0;
 }
 
-.navbar__theme-toggle {
-  width: 38px;
-  height: 38px;
+.navbar__icon-btn {
+  --icon-btn-size: 38px;
+  width: var(--icon-btn-size);
+  height: var(--icon-btn-size);
+  flex: 0 0 var(--icon-btn-size);
+  padding: 0;
   border-radius: 50%;
   border: 1px solid var(--border-strong);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.navbar__theme-toggle {
   transition: transform 0.4s var(--ease-out), background 0.3s ease;
-  flex-shrink: 0;
 }
 
 .navbar__theme-toggle:hover {
@@ -150,30 +184,42 @@ body.no-scroll {
 
 .navbar__theme-icon {
   font-size: 1rem;
+  line-height: 1;
 }
 
 .navbar__burger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  width: 26px;
-  flex-shrink: 0;
+  display: none; /* shown at the mobile breakpoint below */
+  transition: background 0.3s ease, opacity 0.25s ease, visibility 0s;
 }
 
-.navbar__burger span {
+.navbar__burger:hover {
+  background: var(--bg-card);
+}
+
+.navbar__burger-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 18px;
+}
+
+.navbar__burger-lines span {
+  display: block;
   height: 2px;
   width: 100%;
   background: var(--text-primary);
+  border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.navbar__burger.is-open span:nth-child(1) {
+.navbar__burger.is-open .navbar__burger-lines span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
-.navbar__burger.is-open span:nth-child(2) {
+.navbar__burger.is-open .navbar__burger-lines span:nth-child(2) {
   opacity: 0;
 }
-.navbar__burger.is-open span:nth-child(3) {
+.navbar__burger.is-open .navbar__burger-lines span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
 
@@ -195,8 +241,7 @@ body.no-scroll {
 }
 
 /* ============================================================
-   SIDEBAR â€” header with logo + close button,
-   numbered staggered links, footer with contact details.
+   SIDEBAR
    ============================================================ */
 .navbar__sidebar {
   display: none;
@@ -206,7 +251,6 @@ body.no-scroll {
   .navbar__burger {
     display: flex;
     z-index: 101;
-    transition: opacity 0.25s ease, visibility 0s;
   }
 
   .navbar__links {
@@ -222,12 +266,7 @@ body.no-scroll {
     box-shadow: var(--shadow-card);
   }
 
-  .navbar--menu-open .navbar__logo {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
+  .navbar--menu-open .navbar__logo,
   .navbar--menu-open .navbar__burger {
     opacity: 0;
     visibility: hidden;
@@ -273,11 +312,8 @@ body.no-scroll {
     flex-shrink: 0;
   }
 
-  /* ============================================================
-     SIDEBAR LOGO â€” Smaller sizing
-     ============================================================ */
   .navbar__sidebar-logo img {
-    height: 40px; /* Reduced from 56px */
+    height: 40px;
     width: auto;
     max-width: 100%;
     display: block;
@@ -285,15 +321,10 @@ body.no-scroll {
     flex-shrink: 0;
   }
 
+  /* same size as the burger it replaces */
   .navbar__sidebar-close {
     position: relative;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1px solid var(--border-strong);
     background: var(--bg-card);
-    flex-shrink: 0;
-    cursor: pointer;
     transition: background 0.25s ease, transform 0.25s ease;
   }
 
@@ -309,6 +340,7 @@ body.no-scroll {
     width: 16px;
     height: 2px;
     background: var(--text-primary);
+    border-radius: 2px;
     transform-origin: center;
   }
 
@@ -322,7 +354,7 @@ body.no-scroll {
   .navbar__sidebar-links {
     display: flex;
     flex-direction: column;
-    padding: 12px 12px;
+    padding: 12px;
     flex: 1 1 auto;
   }
 
@@ -351,12 +383,31 @@ body.no-scroll {
     background: var(--bg-card);
   }
 
-  .navbar__sidebar-link.is-active:not(.navbar__sidebar-link--cta) {
-    background: var(--bg-card);
+  /* ----------------------------------------------------------
+     ACTIVE PAGE HIGHLIGHT
+     The accent follows the route, so opening the menu on
+     /clients highlights Clients, on /careers highlights
+     Careers, and so on. It is no longer pinned to Contact.
+     ---------------------------------------------------------- */
+  .navbar__sidebar-link.is-active {
+    background: var(--accent-gradient);
+    color: var(--bg-primary);
   }
 
-  .navbar__sidebar-link.is-active:not(.navbar__sidebar-link--cta) .navbar__sidebar-link-num {
-    color: var(--text-primary);
+  .navbar__sidebar-link.is-active:hover {
+    background: var(--accent-gradient);
+    filter: brightness(1.06);
+  }
+
+  .navbar__sidebar-link.is-active .navbar__sidebar-link-num {
+    color: var(--bg-primary);
+    opacity: 0.85;
+  }
+
+  .navbar__sidebar-link.is-active .navbar__sidebar-link-arrow {
+    color: var(--bg-primary);
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .navbar__sidebar-link-num {
@@ -386,23 +437,6 @@ body.no-scroll {
     transform: translateX(0);
   }
 
-  .navbar__sidebar-link--cta {
-    margin-top: 10px;
-    background: var(--accent-gradient);
-    color: var(--bg-primary);
-  }
-
-  .navbar__sidebar-link--cta .navbar__sidebar-link-num,
-  .navbar__sidebar-link--cta .navbar__sidebar-link-arrow {
-    color: var(--bg-primary);
-    opacity: 0.8;
-  }
-
-  .navbar__sidebar-link--cta:hover {
-    filter: brightness(1.06);
-    background: var(--accent-gradient);
-  }
-
   .navbar__sidebar-foot {
     display: flex;
     flex-direction: column;
@@ -426,6 +460,7 @@ body.no-scroll {
     font-size: 0.88rem;
     font-weight: 500;
     color: var(--text-primary);
+    word-break: break-word;
     transition: color 0.2s ease;
   }
 
@@ -435,7 +470,7 @@ body.no-scroll {
 }
 
 /* ============================================================
-   RESPONSIVE â€” Smaller logo scaling across breakpoints
+   RESPONSIVE — logo scale + icon buttons shrink together
    ============================================================ */
 
 /* Tablet: 780px */
@@ -448,11 +483,11 @@ body.no-scroll {
   }
 
   .navbar__logo-img {
-    height: 64px; /* Reduced from 120px */
+    height: 64px;
     margin: -8px 0;
   }
   .navbar--scrolled .navbar__logo-img {
-    height: 48px; /* Reduced from 80px */
+    height: 48px;
     margin: -6px 0;
   }
 }
@@ -471,11 +506,11 @@ body.no-scroll {
   }
 
   .navbar__logo-img {
-    height: 50px; /* Reduced from 92px */
+    height: 50px;
     margin: -6px 0;
   }
   .navbar--scrolled .navbar__logo-img {
-    height: 38px; /* Reduced from 64px */
+    height: 38px;
     margin: -4px 0;
   }
 
@@ -483,17 +518,24 @@ body.no-scroll {
     gap: 10px;
   }
 
-  .navbar__theme-toggle {
-    width: 34px;
-    height: 34px;
+  /* one variable resizes all three buttons at once */
+  .navbar__icon-btn {
+    --icon-btn-size: 34px;
   }
+
   .navbar__theme-icon {
     font-size: 0.9rem;
   }
 
-  .navbar__burger {
-    width: 22px;
+  .navbar__burger-lines {
+    width: 16px;
     gap: 4px;
+  }
+  .navbar__burger.is-open .navbar__burger-lines span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .navbar__burger.is-open .navbar__burger-lines span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
   }
 
   .navbar__sidebar {
@@ -503,10 +545,10 @@ body.no-scroll {
     padding: 16px 20px;
   }
   .navbar__sidebar-logo img {
-    height: 34px; /* Reduced from 46px */
+    height: 34px;
   }
   .navbar__sidebar-links {
-    padding: 8px 8px;
+    padding: 8px;
   }
   .navbar__sidebar-link {
     font-size: 1.05rem;
@@ -525,11 +567,11 @@ body.no-scroll {
   }
 
   .navbar__logo-img {
-    height: 42px; /* Reduced from 76px */
+    height: 42px;
     margin: -5px 0;
   }
   .navbar--scrolled .navbar__logo-img {
-    height: 32px; /* Reduced from 54px */
+    height: 32px;
     margin: -3px 0;
   }
 
@@ -537,16 +579,16 @@ body.no-scroll {
     gap: 8px;
   }
 
-  .navbar__theme-toggle {
-    width: 30px;
-    height: 30px;
+  .navbar__icon-btn {
+    --icon-btn-size: 30px;
   }
+
   .navbar__theme-icon {
     font-size: 0.82rem;
   }
 
-  .navbar__burger {
-    width: 20px;
+  .navbar__burger-lines {
+    width: 15px;
   }
 
   .navbar__sidebar {
@@ -555,6 +597,9 @@ body.no-scroll {
   .navbar__sidebar-link {
     font-size: 1rem;
     padding: 13px 9px;
+  }
+  .navbar__sidebar-close span {
+    width: 14px;
   }
   .navbar__sidebar-foot-item {
     font-size: 0.82rem;
@@ -568,14 +613,29 @@ body.no-scroll {
     padding-right: 12px;
   }
   .navbar__logo-img {
-    height: 36px; /* Reduced from 64px */
+    height: 36px;
     margin: -4px 0;
   }
   .navbar--scrolled .navbar__logo-img {
-    height: 28px; /* Reduced from 46px */
+    height: 28px;
     margin: -3px 0;
   }
+
+  .navbar__icon-btn {
+    --icon-btn-size: 28px;
+  }
+
+  .navbar__burger-lines {
+    width: 14px;
+    gap: 3.5px;
+  }
+
   .navbar__sidebar {
     width: 100vw;
+  }
+  .navbar__sidebar-link {
+    font-size: 0.95rem;
+    padding: 12px 8px;
+    gap: 10px;
   }
 }

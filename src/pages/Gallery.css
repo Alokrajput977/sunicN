@@ -24,6 +24,17 @@
   overflow: hidden;
   box-sizing: border-box;
 }
+/* Page ka pehla section fixed navbar ke neeche shuru ho */
+.navbar + .gl,
+.navbar + main > .gl:first-child,
+.gl:first-child {
+  padding-top: calc(var(--nav-h, 88px) + clamp(20px, 4vw, 48px));
+}
+
+/* #gallery anchor pe jump karte waqt heading navbar ke peeche na chhupe */
+.gl {
+  scroll-margin-top: calc(var(--nav-h, 88px) + 12px);
+}
 
 .gl *,
 .gl *::before,
