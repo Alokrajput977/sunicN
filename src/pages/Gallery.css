@@ -16,11 +16,18 @@
 
 .gl {
   position: relative;
+  z-index: 1; /* keeps the section above any pinned section that precedes it */
   background: var(--gl-bg);
   color: var(--gl-ink);
   font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
-  padding: 150px 0 160px;
+  padding: clamp(72px, 10vw, 150px) 0 clamp(76px, 11vw, 160px);
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+.gl *,
+.gl *::before,
+.gl *::after {
   box-sizing: border-box;
 }
 
@@ -29,8 +36,8 @@
   position: absolute;
   top: -160px;
   left: 50%;
-  width: 900px;
-  height: 480px;
+  width: min(900px, 130vw);
+  height: min(480px, 60vw);
   transform: translateX(-50%);
   background: radial-gradient(closest-side, rgba(91, 76, 240, 0.1), transparent 72%);
   pointer-events: none;
@@ -40,44 +47,44 @@
   position: relative;
   max-width: 1220px;
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 clamp(14px, 3.2vw, 28px);
   width: 100%;
-  box-sizing: border-box;
 }
 
 /* ---------- Header ---------- */
 .gl__head {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: clamp(28px, 4.5vw, 48px);
 }
 
 .gl__eyebrow {
   display: inline-block;
+  max-width: 100%;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
+  font-size: clamp(10px, 2.6vw, 12px);
   font-weight: 500;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--gl-indigo);
   background: rgba(67, 56, 202, 0.08);
   border: 1px solid rgba(67, 56, 202, 0.18);
   padding: 6px 14px;
   border-radius: 999px;
-  margin-bottom: 24px;
+  margin-bottom: clamp(14px, 2.4vw, 24px);
 }
 
 .gl__title {
-  font-size: clamp(32px, 4.4vw, 46px);
+  font-size: clamp(23px, 6.4vw, 46px);
   font-weight: 800;
   letter-spacing: -0.01em;
-  line-height: 1.15;
-  margin: 0 0 20px;
-  word-break: break-word;
+  line-height: 1.16;
+  margin: 0 0 clamp(12px, 2vw, 20px);
+  overflow-wrap: anywhere;
 }
 
 .gl__subtitle {
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: clamp(13.5px, 3.4vw, 16px);
+  line-height: 1.65;
   color: var(--gl-muted);
   max-width: 540px;
   margin: 0 auto;
@@ -87,23 +94,31 @@
 .gl__tabs-wrap {
   display: flex;
   justify-content: center;
-  margin-bottom: 56px;
+  margin-bottom: clamp(28px, 4.5vw, 56px);
 }
 
 .gl__tabs {
   position: relative;
-  display: inline-flex;
+  display: flex;
   gap: 4px;
   border-bottom: 1px solid var(--gl-border);
-  flex-wrap: wrap;
-  justify-content: center;
   margin-top: 16px;
   max-width: 100%;
+  /* never wraps — scrolls sideways instead, so the pill stays aligned */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gl__tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .gl__pill {
   position: absolute;
-  bottom: -1px;
+  bottom: 0;
   left: 0;
   height: 2px;
   width: 0;
@@ -114,13 +129,14 @@
 .gl__tab {
   position: relative;
   z-index: 1;
+  flex: 0 0 auto;
   border: none;
   background: transparent;
   font-family: inherit;
-  font-size: 13.5px;
+  font-size: clamp(12px, 3vw, 13.5px);
   font-weight: 600;
   color: var(--gl-muted);
-  padding: 12px 20px 15px;
+  padding: 12px clamp(12px, 3.4vw, 20px) 14px;
   cursor: pointer;
   transition: color 0.2s ease;
   white-space: nowrap;
@@ -130,17 +146,25 @@
   color: var(--gl-ink);
 }
 
+/* NOTE: no margin here — it used to shift the button and knock the
+   underline out of alignment. */
 .gl__tab.is-active {
   color: var(--gl-highlight-1);
-  margin-bottom: 10px;
 }
 
-/* ---------- Grid — roomier tiles, bigger gaps ---------- */
+/* ==========================================================
+   Grid
+   Rows are minmax(x, auto): a card can never be shorter than
+   the design height, but it CAN grow if the text needs more
+   room. Fixed row heights were what clipped and overlapped
+   the blog cards on small screens.
+   ========================================================== */
 .gl__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 310px;
-  gap: 26px;
+  grid-auto-rows: minmax(310px, auto);
+  gap: clamp(12px, 2vw, 26px);
+  align-items: stretch;
 }
 
 .gl__card {
@@ -152,13 +176,13 @@
   color: inherit;
   background: var(--gl-card);
   border: 1px solid var(--gl-border);
-  border-radius: 16px;
+  border-radius: clamp(12px, 1.6vw, 16px);
   overflow: hidden;
   cursor: pointer;
   padding: 0;
-  will-change: transform, opacity;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
   min-width: 0;
+  height: 100%;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .gl__card--wide {
@@ -203,7 +227,7 @@
   position: relative;
   display: block;
   flex: 1 1 auto;
-  min-height: 0;
+  min-height: 150px;
   overflow: hidden;
   background: var(--gl-border);
 }
@@ -222,7 +246,6 @@
   transform: scale(1.06);
 }
 
-/* placeholder when a src is missing or fails to load */
 .gl__card-fallback {
   position: absolute;
   inset: 0;
@@ -246,6 +269,8 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--gl-faint);
+  text-align: center;
+  padding: 0 10px;
 }
 
 .gl__card-shade {
@@ -262,14 +287,14 @@
 
 .gl__card-play {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 36px;
-  height: 36px;
+  top: clamp(10px, 2vw, 16px);
+  right: clamp(10px, 2vw, 16px);
+  width: clamp(28px, 7vw, 36px);
+  height: clamp(28px, 7vw, 36px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: clamp(9px, 2.4vw, 11px);
   color: var(--gl-ink);
   background: rgba(255, 255, 255, 0.94);
   border-radius: 50%;
@@ -281,12 +306,12 @@
   transform: scale(1.14);
 }
 
-/* ---------- Card text — generous padding ---------- */
+/* ---------- Card text ---------- */
 .gl__card-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 22px 24px 20px;
+  gap: clamp(6px, 1.1vw, 8px);
+  padding: clamp(14px, 2.2vw, 22px) clamp(14px, 2.4vw, 24px) clamp(12px, 2vw, 20px);
   flex: 0 0 auto;
   min-width: 0;
 }
@@ -294,61 +319,76 @@
 .gl__card--blog .gl__card-info {
   flex: 1 1 auto;
   justify-content: flex-start;
-  padding: 32px 28px 26px;
-  gap: 12px;
+  padding: clamp(18px, 2.8vw, 32px) clamp(16px, 2.6vw, 28px) clamp(14px, 2.4vw, 26px);
+  gap: clamp(8px, 1.4vw, 12px);
 }
 
 .gl__card-tag {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
+  font-size: clamp(9.5px, 2.4vw, 10.5px);
   font-weight: 500;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--gl-gold);
+  overflow-wrap: anywhere;
 }
 
+/* Titles and captions are line-clamped so a long headline can never
+   push the footer out of the card. */
 .gl__card-title {
-  font-size: 16.5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: clamp(13.5px, 3.6vw, 16.5px);
   font-weight: 700;
   line-height: 1.32;
   letter-spacing: -0.01em;
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .gl__card--blog .gl__card-title {
-  font-size: 20px;
+  font-size: clamp(16px, 4.2vw, 20px);
   line-height: 1.28;
 }
 
 .gl__card-caption {
   display: none;
-  font-size: 13.5px;
-  line-height: 1.65;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: clamp(12px, 3vw, 13.5px);
+  line-height: 1.6;
   color: var(--gl-muted);
 }
 
 .gl__card--blog .gl__card-caption,
 .gl__card--wide .gl__card-caption {
-  display: block;
+  display: -webkit-box;
+}
+
+.gl__card--wide.gl__card--blog .gl__card-caption {
+  -webkit-line-clamp: 4;
 }
 
 .gl__card-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: clamp(10px, 1.6vw, 14px);
 }
 
 .gl__card-date {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
+  font-size: clamp(10px, 2.5vw, 11px);
   color: var(--gl-faint);
+  white-space: nowrap;
 }
 
 .gl__card-cue {
-  font-size: 12.5px;
+  font-size: clamp(11.5px, 2.8vw, 12.5px);
   font-weight: 700;
   color: var(--gl-highlight-1);
   transform: translateX(0);
@@ -365,7 +405,7 @@
 }
 
 /* ============================================================
-   Lightbox — media capped, body always scrollable
+   Lightbox
    ============================================================ */
 .gx__overlay {
   position: fixed;
@@ -387,6 +427,7 @@
   width: 100%;
   max-width: 900px;
   max-height: 90vh;
+  max-height: 90dvh; /* dvh = correct with a mobile URL bar on screen */
   background: var(--gl-card);
   color: var(--gl-ink);
   border-radius: 20px;
@@ -397,14 +438,18 @@
   box-sizing: border-box;
 }
 
+.gx__panel * {
+  box-sizing: border-box;
+}
+
 .gx__panel--read {
   max-width: 720px;
 }
 
 .gx__close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 12px;
+  right: 12px;
   z-index: 4;
   width: 36px;
   height: 36px;
@@ -427,8 +472,6 @@
   border-color: var(--gl-highlight-1);
 }
 
-/* Media is capped at 45vh so the text below always has room to
-   read and scroll — previously it could eat the whole panel. */
 .gx__media {
   flex: 0 0 auto;
   width: 100%;
@@ -445,24 +488,22 @@
   display: block;
 }
 
-/* Blog banner image sits shorter and crops rather than letterboxes */
 .gx__media--banner {
-  max-height: 220px;
+  max-height: clamp(140px, 26vh, 220px);
 }
 
 .gx__media--banner img {
-  max-height: 220px;
+  max-height: clamp(140px, 26vh, 220px);
   object-fit: cover;
 }
 
-/* The scrolling region — for every item kind, not just blogs */
 .gx__body {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 30px 38px 38px;
-  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(20px, 3vw, 30px) clamp(16px, 3.4vw, 38px) clamp(22px, 3.6vw, 38px);
 }
 
 .gx__body::-webkit-scrollbar {
@@ -492,36 +533,31 @@
 }
 
 .gx__title {
-  font-size: 27px;
+  /* leaves room for the close button on narrow panels */
+  padding-right: 44px;
+  font-size: clamp(17px, 4.8vw, 27px);
   font-weight: 800;
   letter-spacing: -0.015em;
   line-height: 1.24;
-  margin: 10px 0 16px;
-  word-break: break-word;
+  margin: 10px 0 14px;
+  overflow-wrap: anywhere;
 }
 
 .gx__meta {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: clamp(16px, 2.6vw, 24px);
 }
 
 .gx__meta span {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11.5px;
+  font-size: clamp(10px, 2.6vw, 11.5px);
   color: var(--gl-muted);
   background: var(--gl-bg);
   border: 1px solid var(--gl-border);
   padding: 5px 12px;
   border-radius: 999px;
-}
-
-.gx__caption {
-  font-size: 15.5px;
-  line-height: 1.75;
-  color: var(--gl-muted);
-  margin: 0;
 }
 
 .gx__prose {
@@ -530,26 +566,204 @@
 }
 
 .gx__prose p {
-  font-size: 15.5px;
-  line-height: 1.85;
+  font-size: clamp(13.5px, 3.5vw, 15.5px);
+  line-height: 1.8;
   color: var(--gl-muted);
-  margin: 18px 0 0;
+  margin: 16px 0 0;
+  overflow-wrap: anywhere;
 }
 
 .gx__prose p:first-child {
   color: var(--gl-ink);
   font-weight: 500;
-  font-size: 16.5px;
+  font-size: clamp(14.5px, 3.8vw, 16.5px);
 }
 
 .gx__prose-head {
-  font-size: 15px;
+  font-size: clamp(13.5px, 3.6vw, 15px);
   font-weight: 700;
   color: var(--gl-ink);
   letter-spacing: -0.01em;
-  margin: 30px 0 -4px;
-  padding-left: 14px;
+  margin: 26px 0 -4px;
+  padding-left: 12px;
   border-left: 3px solid var(--gl-gold);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* ---- Tablet (≤ 1020px): two columns ---- */
+@media (max-width: 1020px) {
+  .gl__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(280px, auto);
+  }
+  .gl__card--wide {
+    grid-column: span 2;
+  }
+  .gl__card--tall {
+    grid-row: span 2;
+  }
+}
+
+/* ---- Phones & small tablets (≤ 700px): one column, HEIGHT IS AUTO.
+        This is the actual overlap fix — cards size to their content
+        instead of being forced into a fixed row height. ---- */
+@media (max-width: 700px) {
+  .gl__grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .gl__card--wide,
+  .gl__card--tall {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .gl__card {
+    height: auto;
+    min-height: 0;
+  }
+
+  /* media gets a fixed shape, text below takes whatever it needs */
+  .gl__card-media {
+    flex: 0 0 auto;
+    aspect-ratio: 16 / 10;
+    height: auto;
+    min-height: 0;
+  }
+
+  /* one column is wide enough to read a caption on every card */
+  .gl__card-caption {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Lightbox stays a centred popup — never edge-to-edge */
+  .gx__overlay {
+    padding: 18px 16px;
+    align-items: center;
+  }
+
+  .gx__panel {
+    width: 100%;
+    max-width: 540px;
+    border-radius: 16px;
+    max-height: 90vh;
+    max-height: 90dvh;
+  }
+
+  .gx__media img,
+  .gx__media video {
+    max-height: 38vh;
+  }
+}
+
+/* ---- Standard phones (≤ 480px) ---- */
+@media (max-width: 480px) {
+  .gl__card-media {
+    aspect-ratio: 3 / 2;
+  }
+
+  .gl__card-caption {
+    -webkit-line-clamp: 2;
+  }
+
+  .gx__overlay {
+    padding: 22px 18px;
+    align-items: center;
+  }
+
+  .gx__panel,
+  .gx__panel--read {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px;
+    max-height: 88vh;
+    max-height: 88dvh;
+  }
+
+  .gx__close {
+    width: 30px;
+    height: 30px;
+    top: 9px;
+    right: 9px;
+    font-size: 12px;
+  }
+
+  .gx__media img,
+  .gx__media video {
+    max-height: 34vh;
+  }
+
+  .gx__media--banner,
+  .gx__media--banner img {
+    max-height: 155px;
+  }
+
+  .gx__body {
+    padding: 18px 16px 22px;
+  }
+
+  .gx__title {
+    padding-right: 36px;
+  }
+}
+
+/* ---- Small phones (≤ 360px) ---- */
+@media (max-width: 360px) {
+  .gl__card-media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .gl__card-foot {
+    /* date and cue stop fighting for the same line */
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .gx__overlay {
+    padding: 18px 14px;
+  }
+
+  .gx__panel {
+    max-height: 88vh;
+    max-height: 88dvh;
+  }
+
+  .gx__body {
+    padding: 16px 14px 20px;
+  }
+}
+
+/* ---- 300–320px safety net ---- */
+@media (max-width: 320px) {
+  .gl__grid {
+    gap: 10px;
+  }
+
+  .gl__card-title {
+    -webkit-line-clamp: 4;
+  }
+
+  .gl__card-foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .gx__overlay {
+    padding: 14px 12px;
+  }
+
+  .gx__panel {
+    border-radius: 14px;
+  }
+
+  .gx__title {
+    padding-right: 34px;
+  }
 }
 
 /* ============================================================
@@ -611,261 +825,17 @@
   }
 }
 
-/* ============================================================
-   RESPONSIVE — cascades from tablet down to 300px phones,
-   same breakpoint structure used across the rest of the site.
-   ============================================================ */
-
-/* ---- Tablet (≤ 1020px) ---- */
-@media (max-width: 1020px) {
-  .gl__grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 290px;
-    gap: 22px;
+/* ---------- Touch devices: no hover zoom/lift ---------- */
+@media (hover: none) {
+  .gl__card:hover {
+    box-shadow: none;
+    border-color: var(--gl-border);
   }
-  .gl__card--wide {
-    grid-column: span 2;
+  .gl__card:hover .gl__card-media img,
+  .gl__card:hover .gl__card-media video {
+    transform: none;
   }
-}
-
-/* ---- Large phones / small tablets (≤ 660px) ---- */
-@media (max-width: 660px) {
-  .gl {
-    padding: 100px 0 110px;
-  }
-  .gl .container {
-    padding: 0 20px;
-  }
-  .gl__grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 300px;
-    gap: 18px;
-  }
-  .gl__card--wide,
-  .gl__card--tall {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-  .gl__card--blog {
-    grid-row: auto;
-    min-height: 300px;
-  }
-  .gl__card--normal .gl__card-caption {
-    display: none;
-  }
-  .gl__tabs {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    scrollbar-width: none;
-    max-width: 100%;
-    justify-content: flex-start;
-  }
-  .gl__tabs::-webkit-scrollbar {
-    display: none;
-  }
-  .gl__tabs-wrap {
-    justify-content: flex-start;
-  }
-  .gx__overlay {
-    padding: 2vh 12px;
-  }
-  .gx__panel {
-    border-radius: 14px;
-    max-height: 96vh;
-  }
-  .gx__body {
-    padding: 24px 20px 28px;
-  }
-  .gx__title {
-    font-size: 21px;
-  }
-  .gx__media img,
-  .gx__media video {
-    max-height: 44vh;
-  }
-}
-
-/* ---- Standard phones incl. iPhone X/11/12/13 (~375–428px) ---- */
-@media (max-width: 480px) {
-  .gl {
-    padding: 88px 0 88px;
-  }
-
-  .gl .container {
-    padding: 0 16px;
-  }
-
-  .gl__head {
-    margin-bottom: 32px;
-  }
-
-  .gl__eyebrow {
-    font-size: 10.5px;
-    padding: 5px 12px;
-    margin-bottom: 18px;
-  }
-
-  .gl__title {
-    font-size: clamp(24px, 7.5vw, 30px);
-    margin-bottom: 14px;
-  }
-
-  .gl__subtitle {
-    font-size: 14.5px;
-    line-height: 1.6;
-  }
-
-  .gl__tabs-wrap {
-    margin-bottom: 32px;
-  }
-
-  .gl__tab {
-    padding: 10px 14px 12px;
-    font-size: 12.5px;
-  }
-
-  .gl__grid {
-    grid-auto-rows: 260px;
-    gap: 14px;
-  }
-
-  .gl__card-info {
-    padding: 16px 16px 14px;
-    gap: 6px;
-  }
-
-  .gl__card--blog .gl__card-info {
-    padding: 22px 18px 18px;
-    gap: 8px;
-  }
-
-  .gl__card-title {
-    font-size: 14.5px;
-  }
-
-  .gl__card--blog .gl__card-title {
-    font-size: 17px;
-  }
-
-  .gl__card-caption {
-    font-size: 12.5px;
-  }
-
-  .gl__card-play {
-    width: 30px;
-    height: 30px;
-    top: 12px;
-    right: 12px;
-  }
-
-  .gx__overlay {
-    padding: 0;
-    align-items: flex-end;
-  }
-  .gx__panel {
-    border-radius: 16px 16px 0 0;
-    max-height: 94vh;
-  }
-  .gx__panel--read {
-    max-width: 100%;
-  }
-  .gx__close {
-    width: 32px;
-    height: 32px;
-    top: 12px;
-    right: 12px;
-  }
-  .gx__body {
-    padding: 22px 18px 24px;
-  }
-  .gx__title {
-    font-size: 19px;
-    margin: 8px 0 12px;
-  }
-  .gx__meta {
-    margin-bottom: 18px;
-  }
-  .gx__meta span {
-    font-size: 10.5px;
-    padding: 4px 10px;
-  }
-  .gx__prose p {
-    font-size: 14px;
-    line-height: 1.75;
-  }
-  .gx__media img,
-  .gx__media video {
-    max-height: 36vh;
-  }
-  .gx__media--banner,
-  .gx__media--banner img {
-    max-height: 160px;
-  }
-}
-
-/* ---- Very small phones (≤360px, iPhone SE / 300px-class) ---- */
-@media (max-width: 360px) {
-  .gl {
-    padding: 76px 0 76px;
-  }
-
-  .gl .container {
-    padding: 0 14px;
-  }
-
-  .gl__title {
-    font-size: clamp(21px, 8vw, 26px);
-  }
-
-  .gl__subtitle {
-    font-size: 13.5px;
-  }
-
-  .gl__grid {
-    grid-auto-rows: 230px;
-    gap: 12px;
-  }
-
-  .gl__card-info {
-    padding: 14px 14px 12px;
-  }
-
-  .gl__card-title {
-    font-size: 13.5px;
-  }
-
-  .gl__card-date {
-    font-size: 10px;
-  }
-
-  .gl__card-cue {
-    font-size: 11.5px;
-  }
-
-  .gx__title {
-    font-size: 17px;
-  }
-
-  .gx__prose p {
-    font-size: 13.5px;
-  }
-}
-
-/* ---- Extra-narrow safety net (≤300px) ---- */
-@media (max-width: 300px) {
-  .gl .container {
-    padding: 0 12px;
-  }
-  .gl__grid {
-    grid-auto-rows: 210px;
-  }
-  .gl__card-info {
-    padding: 12px 12px 10px;
-  }
-  .gl__card--blog .gl__card-info {
-    padding: 18px 14px 14px;
-  }
-  .gx__body {
-    padding: 18px 14px 20px;
+  .gl__card:hover::before {
+    transform: scaleY(0);
   }
 }

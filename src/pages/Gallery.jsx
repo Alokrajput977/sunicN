@@ -6,8 +6,6 @@ import './Gallery.css';
 
 /* ================================================================
    MEDIA CONFIG — sab kuch yahin se swap karein.
-   Videos ab direct URL links hain — apni khud ki hosted video URL
-   (Cloudinary, S3, CDN) se kabhi bhi replace kar sakte hain.
    ================================================================ */
 const VID = {
   yard: 'https://res.cloudinary.com/kajpumjn/video/upload/v1785830397/one_xlsfem.mp4',
@@ -26,7 +24,14 @@ const IMG = {
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Mobile browsers resize on every URL-bar show/hide. Without this the grid
+// re-measures mid-scroll and cards jump over each other.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 const FILTERS = ['All', 'Photos', 'Videos', 'Blog'];
+
+const isCoarsePointer = () =>
+  typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
 
 /* ----------------------------------------------------------------
    Gallery items
@@ -270,6 +275,7 @@ const Prose = ({ body }) =>
 ---------------------------------------------------------------- */
 const CardMedia = ({ item }) => {
   const [failed, setFailed] = useState(false);
+  const [coarse] = useState(isCoarsePointer);
 
   if (failed || !item.src) {
     return (
@@ -283,7 +289,15 @@ const CardMedia = ({ item }) => {
   }
 
   if (item.kind === 'photo') {
-    return <img src={item.src} alt={item.title} loading="lazy" onError={() => setFailed(true)} />;
+    return (
+      <img
+        src={item.src}
+        alt={item.title}
+        loading="lazy"
+        decoding="async"
+        onError={() => setFailed(true)}
+      />
+    );
   }
 
   return (
@@ -293,15 +307,16 @@ const CardMedia = ({ item }) => {
       loop
       muted
       playsInline
-      preload="auto"
+      // phones: don't pull the whole file down just to loop a tile
+      preload={coarse ? 'metadata' : 'auto'}
+      disablePictureInPicture
       onError={() => setFailed(true)}
     />
   );
 };
 
 /* ----------------------------------------------------------------
-   Lightbox — media is capped so the text area always has room,
-   and the body scrolls independently of the page.
+   Lightbox
 ---------------------------------------------------------------- */
 const Lightbox = ({ item, onClose }) => {
   const overlayRef = useRef(null);
@@ -311,7 +326,11 @@ const Lightbox = ({ item, onClose }) => {
 
   useEffect(() => {
     const prevOverflow = document.body.style.overflow;
+    const prevPadding = document.body.style.paddingRight;
+    // compensate for the scrollbar disappearing so the page doesn't shift
+    const barWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
+    if (barWidth > 0) document.body.style.paddingRight = `${barWidth}px`;
 
     gsap.set(overlayRef.current, { opacity: 0 });
     gsap.set(panelRef.current, { opacity: 0, y: 30, scale: 0.96 });
@@ -334,6 +353,7 @@ const Lightbox = ({ item, onClose }) => {
 
     return () => {
       document.body.style.overflow = prevOverflow;
+      document.body.style.paddingRight = prevPadding;
       window.removeEventListener('keydown', onKeyDown);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -511,7 +531,9 @@ const Gallery = () => {
             duration: 0.75,
             ease: 'power3.out',
             stagger: { each: 0.07, from: 'start' },
-            scrollTrigger: { trigger: gridRef.current, start: 'top 88%' },
+            // clears the inline transform so it can never fight the grid layout
+            clearProps: 'transform,willChange',
+            scrollTrigger: { trigger: gridRef.current, start: 'top 90%' },
           }
         );
       }, sectionRef);
@@ -528,12 +550,22 @@ const Gallery = () => {
 
     Promise.all([fontsReady, pageLoaded]).then(build);
 
-    const onResize = () => ScrollTrigger.refresh();
+    // Debounced, width-only refresh. Refreshing on every resize event (which
+    // fires constantly on mobile) was causing the layout jump.
+    let lastWidth = window.innerWidth;
+    let timer;
+    const onResize = () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => ScrollTrigger.refresh(), 180);
+    };
     window.addEventListener('resize', onResize);
 
     return () => {
       cancelled = true;
       if (ctx) ctx.revert();
+      window.clearTimeout(timer);
       window.removeEventListener('resize', onResize);
     };
   }, []);
@@ -544,50 +576,66 @@ const Gallery = () => {
       isFirstFilterRender.current = false;
       return;
     }
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const cards = gridRef.current?.children;
     if (!cards?.length) return;
 
-    gsap.fromTo(
-      cards,
-      { opacity: 0, y: 28, scale: 0.97 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'power2.out', stagger: 0.05 }
-    );
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(cards, { opacity: 1, y: 0, scale: 1 });
+    } else {
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 28, scale: 0.97 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: 'power2.out',
+          stagger: 0.05,
+          clearProps: 'transform',
+        }
+      );
+    }
     ScrollTrigger.refresh();
   }, [activeFilter]);
 
-  /* Sliding underline under the active filter */
+  /* Sliding underline under the active filter.
+     offsetLeft (not getBoundingClientRect) so it stays correct when the tab
+     strip is horizontally scrolled on a phone. */
   const movePill = (btn, animate = true) => {
-    const list = tabListRef.current;
     const pill = tabPillRef.current;
-    if (!list || !pill || !btn) return;
-    const listBox = list.getBoundingClientRect();
-    const itemBox = btn.getBoundingClientRect();
+    if (!pill || !btn) return;
     gsap.to(pill, {
-      x: itemBox.left - listBox.left,
-      width: itemBox.width,
+      x: btn.offsetLeft,
+      width: btn.offsetWidth,
       duration: animate ? 0.45 : 0,
       ease: 'power3.inOut',
     });
   };
 
   useEffect(() => {
-    const positionPill = () => {
-      const btn = tabListRef.current?.querySelector(`[data-filter="${activeFilter}"]`);
-      if (btn) movePill(btn, false);
-    };
+    const list = tabListRef.current;
+    const btn = list?.querySelector(`[data-filter="${activeFilter}"]`);
+    if (!btn) return undefined;
+
+    movePill(btn, !isFirstFilterRender.current);
+
+    // keep the active tab visible inside the scrolling strip
+    if (list.scrollWidth > list.clientWidth) {
+      const target = btn.offsetLeft - (list.clientWidth - btn.offsetWidth) / 2;
+      list.scrollTo({ left: Math.max(target, 0), behavior: 'smooth' });
+    }
+
+    const reposition = () => movePill(btn, false);
+    const ro = new ResizeObserver(reposition);
+    ro.observe(list);
     const fontsReady =
       document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-    fontsReady.then(positionPill);
-    window.addEventListener('resize', positionPill);
-    return () => window.removeEventListener('resize', positionPill);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    fontsReady.then(reposition);
 
-  const handleTabClick = (filter, e) => {
-    setActiveFilter(filter);
-    movePill(e.currentTarget, true);
-  };
+    return () => ro.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeFilter]);
 
   return (
     <section className="gl" id="gallery" ref={sectionRef}>
@@ -609,7 +657,7 @@ const Gallery = () => {
               type="button"
               data-filter={filter}
               className={`gl__tab ${activeFilter === filter ? 'is-active' : ''}`}
-              onClick={(e) => handleTabClick(filter, e)}
+              onClick={() => setActiveFilter(filter)}
             >
               {filter}
             </button>
